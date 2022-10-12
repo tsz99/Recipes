@@ -17,6 +17,8 @@ A projekt során célunk egy olyan alkalmazás készítése, amely képes egy pu
 A definiált alkalmazást .NET Core 3.1 platformra készítjük el annak érdekében, hogy több operációs rendszeren (Windows, Linux) is lehessen futtatni. Az alkalmazás adatait egy SQL Server (vagy más hasonló) adatbázisban tárolja annak érdekében, hogy a publikus API által visszaadott adatokat megőrizze és ne kelljen minden adatlekérő felhasználói interakció után a távoli végponthoz forduljon az alkalmazás. Az adatok adatbázisban való tárolása továbbá biztosítja azt is, hogy ha a használt végpont nem üzemel, az alkalmazás akkor is funkcionális lesz. Az alkalmazás működéséhez továbbá szükség van egy webszerverre (a megvalósításban IIS/IIS express).
 
 ## Architektúra
+Az alkalmazás megvalósításához három rétegű architektúrát fogunk használni. Az adatelérési réteghez tartozó adatbázisban fogjuk tárolni az alkalmazás altal felhasznált receptek adatait. Az üzleti logikai réteg felel a távoli végpont által publikált recept adatok lekérdezéséért, a felhasználó kezelésért, illetve a receptek kezeléséért. A megjelenítési réteg felel a tárolt receptek megjelenítéséért és fogadja a felhasználók interakcióit.
+
 ![Alt text](/Pictures/3layerArch.png)
 
 ## Use case-ek:
@@ -31,7 +33,7 @@ A definiált alkalmazást .NET Core 3.1 platformra készítjük el annak érdek�
 
 ### Receptkezelés:
 
-- Publikus webhelyeken található receptek betöltése az alkalmazás adatbázisába (scrape/api)
+- Publikus webhelyeken található receptek betöltése az alkalmazás adatbázisába
 
 - Saját recept létrehozás és elmentés az adatbázisba
 
