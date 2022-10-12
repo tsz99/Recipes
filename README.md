@@ -33,42 +33,10 @@ Az alkalmazás megvalósításához három rétegű architektúrát fogunk haszn
 
 ### Receptkezelés:
 
-- Publikus webhelyeken található receptek betöltése az alkalmazás adatbázisába
-
 - Saját recept létrehozás és elmentés az adatbázisba
 
-- Saját recept utólagos módósítása (másik felhasználó receptjét nem lehet módosítani, viszont lehet látni)
+- Saját recept módósítása (másik felhasználó receptjét nem lehet módosítani)
 
-- Adatbázisban levő receptek szűrése/keresése a recept metaadatai alpján
+- Adatbázisban levő receptek szűrése/keresése a recept metaadatai alapján
 
-- Tetszőleges recept lementése .txt formátumban
-
-### Recept metaadatai:
-
-- név
-
-- leírás
-
-- alapanyagok, hozzávalók
-
-- hány adag
-
-- összes idő = előkészületi idő + elkészítési idő
-
-- tápanyag infó
-
-- elkészítési lépések
-
-- recept szerzőjének neve
-
-- értékelések ?
-
-- allergének (pl. mogyoró) ?
-
-- étkezés kategória (pl. desszert) ?
-
-- diéta típus (pl. vegán) ?
-
-- recept származása (pl. olasz) ?
-
-
+- Tetszőleges recept letöltése .txt formátumban
