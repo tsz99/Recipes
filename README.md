@@ -19,12 +19,12 @@ A definiált alkalmazást .NET Core 3.1 platformra készítjük el annak érdek�
 ## Architektúra
 Az alkalmazás megvalósításához három rétegű architektúrát fogunk használni. Az adatelérési réteghez tartozó adatbázisban fogjuk tárolni az alkalmazás altal felhasznált receptek adatait. Az üzleti logikai réteg felel a távoli végpont által publikált recept adatok lekérdezéséért, a felhasználó kezelésért, illetve a receptek kezeléséért. A megjelenítési réteg felel a tárolt receptek megjelenítéséért és fogadja a felhasználók interakcióit.
 
-![Alt text](/Pictures/3layerArch.png)
+![Alt text](./Pictures/3layerArch.png)
 
 ## Use case-ek:
 
 ### Use case diagram:
-![Alt text](/Pictures/use-case.png)
+![Alt text](./Pictures/use-case.png)
 ### Adminisztráció:
 
 - Felhasználó regisztráció (username/password)
