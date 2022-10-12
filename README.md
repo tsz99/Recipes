@@ -15,6 +15,10 @@ A projekt során célunk egy olyan alkalmazás készítése, amely képes egy pu
 
 ## Technikai paraméterek
 A definiált alkalmazást .NET Core 3.1 platformra készítjük el annak érdekében, hogy több operációs rendszeren (Windows, Linux) is lehessen futtatni. Az alkalmazás adatait egy SQL Server (vagy más hasonló) adatbázisban tárolja annak érdekében, hogy a publikus API által visszaadott adatokat megőrizze és ne kelljen minden adatlekérő felhasználói interakció után a távoli végponthoz forduljon az alkalmazás. Az adatok adatbázisban való tárolása továbbá biztosítja azt is, hogy ha a használt végpont nem üzemel, az alkalmazás akkor is funkcionális lesz. Az alkalmazás működéséhez továbbá szükség van egy webszerverre (a megvalósításban IIS/IIS express).
+
+## Architektúra
+![Alt text](/Pictures/3layerArch.png)
+
 ## Use case-ek:
 
 ### Adminisztráció:
