@@ -21,9 +21,11 @@ A definiált alkalmazást .NET Core 3.1 platformra készítjük el annak érdek�
 
 ## Use case-ek:
 
+### Use case diagram:
+![Alt text](/Pictures/use-case.png)
 ### Adminisztráció:
 
-- Felhasználó regisztráció (username/password only)
+- Felhasználó regisztráció (username/password)
 
 - Felhasználó bejelentkezés
 
