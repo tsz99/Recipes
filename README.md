@@ -19,24 +19,26 @@ A definiált alkalmazást .NET Core 3.1 platformra készítjük el annak érdek�
 ## Architektúra
 Az alkalmazás megvalósításához három rétegű architektúrát fogunk használni. Az adatelérési réteghez tartozó adatbázisban fogjuk tárolni az alkalmazás altal felhasznált receptek adatait. Az üzleti logikai réteg felel a távoli végpont által publikált recept adatok lekérdezéséért, a felhasználó kezelésért, illetve a receptek kezeléséért. A megjelenítési réteg felel a tárolt receptek megjelenítéséért és fogadja a felhasználók interakcióit.
 
-![Alt text](/Pictures/3layerArch.png)
+![Alt text](./Pictures/3layerArch.png)
 
 ## Use case-ek:
 
 ### Use case diagram:
-![Alt text](/Pictures/use-case.png)
+![Alt text](./Pictures/use-case.png)
 ### Adminisztráció:
 
-- Felhasználó regisztráció (username/password)
+- Felhasználó regisztráció (username/password): A felhasználó létre kell hozzon egy fiókot, annak érdekében, hogy később be jelentkezni a rendszebe.
 
-- Felhasználó bejelentkezés
+- Felhasználó bejelentkezés: A felhasználó be kell jelentkezzen a rendszerbe mielőtt, böngészni tudja a recepteket, illtve, új recepteket tud hozzáadni a már meglevők mellé, a saját receptjeit módosítani és törölni tudja.
 
 ### Receptkezelés:
 
-- Saját recept létrehozás és elmentés az adatbázisba
+- Recept létrehozás és elmentés az adatbázisba: A felhasználó a már meglevő publikus API-ról betöltött, illetve más felhasználók által készített receptek mellé, új saját receptet vehet fel. Ezt a receptet is eltárolja az alkalmazás az adatbázisban, illetve a felvétel után más felhasználók számára is látható lesz.
 
-- Saját recept módósítása (másik felhasználó receptjét nem lehet módosítani)
+- Recept módósítása: A felhasználó képes az alkalmazásban recepteket módosítani, de csak a saját maga által felvett recepteket módosíthatja, a publikus végpontról gyűjtött receptek, illetve a más felhasználók által létrehozott recepteket nem.
 
-- Adatbázisban levő receptek szűrése/keresése a recept metaadatai alapján
+- Recept törlése: A felhasználó képes az alkalmazásban recepteket törölni, de csak a saját maga által felvett recepteket törölheti, a publikus végpontról gyűjtött receptek, illetve a más felhasználók által létrehozott recepteket nem.
 
-- Tetszőleges recept letöltése .txt formátumban
+- Receptek szűrése/keresése a recept metaadatai alapján: A felhasználónak lehetősége van a felületen különböző recept tulajdonságok alapján szűkíteni a megjelenített recepteket, így a sokkal gyorsabban eljuthat az általa keresett recepthez vagy recepttípushoz.
+
+- Tetszőleges recept letöltése .txt formátumban: A felhasználónak egy recept kiválasztása után lehetősége van a recepthez tartozó metainformációkat/adatokat .txt formában letölteni, annak érdekében, hogy internetkapcsolat nélkül is a letöltött recepteket meg tudja nézni a saját számítógépén.
