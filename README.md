@@ -27,7 +27,7 @@ Az alkalmazás megvalósításához három rétegű architektúrát fogunk haszn
 ![Alt text](./Pictures/use-case.png)
 ### Adminisztráció:
 
-- Felhasználó regisztráció (username/password): A felhasználó létre kell hozzon egy fiókot, annak érdekében, hogy később be jelentkezni a rendszebe.
+- Felhasználó regisztráció (username/password): A felhasználó létre kell hozzon egy fiókot, annak érdekében, hogy később be tudjon jelentkezni a rendszebe.
 
 - Felhasználó bejelentkezés: A felhasználó be kell jelentkezzen a rendszerbe mielőtt, böngészni tudja a recepteket, illtve, új recepteket tud hozzáadni a már meglevők mellé, a saját receptjeit módosítani és törölni tudja.
 
