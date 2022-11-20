@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Recipes.Data;
 using Recipes.Models;
 using Recipes.Services;
 using System;
@@ -14,11 +15,14 @@ namespace Recipes.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private FoodAPIService api;
-        public HomeController(ILogger<HomeController> logger, FoodAPIService service)
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ILogger<HomeController> logger, FoodAPIService service, ApplicationDbContext context)
         {
             _logger = logger;
             api = service;
-            api.GetRecipes();
+            _context = context;
+            //api.GetRecipes();
         }
 
         public IActionResult Index()
@@ -29,6 +33,12 @@ namespace Recipes.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Recipes()
+        {
+            IEnumerable<Recipe> recipes = _context.Recipes.ToList<Recipe>();
+            return View(recipes);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
