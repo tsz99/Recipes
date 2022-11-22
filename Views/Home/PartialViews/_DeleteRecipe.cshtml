@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+}
+@model int;
+
+    <div class="modal fade" tabindex="-1" id="deleteModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete</h4>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>This will delete recipe @Model. Are you sure?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary button button4">Delete</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary button button4">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>

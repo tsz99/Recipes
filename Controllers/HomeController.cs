@@ -39,10 +39,29 @@ namespace Recipes.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create(int id)
+        public IActionResult Create()
         {
-            return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml", id);
+            return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml");
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            return PartialView("~/Views/Home/PartialViews/_EditRecipe.cshtml", id);
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            return PartialView("~/Views/Home/PartialViews/_DetailsRecipe.cshtml", id);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            return PartialView("~/Views/Home/PartialViews/_DeleteRecipe.cshtml", id);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
