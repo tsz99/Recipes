@@ -15,14 +15,11 @@ namespace Recipes.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private FoodAPIService api;
-        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, FoodAPIService service, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, FoodAPIService service)
         {
             _logger = logger;
             api = service;
-            _context = context;
-            //api.GetRecipes();
         }
 
         public IActionResult Index()
@@ -37,8 +34,14 @@ namespace Recipes.Controllers
 
         public IActionResult Recipes()
         {
-            IEnumerable<Recipe> recipes = _context.Recipes.ToList<Recipe>();
+            IEnumerable<Recipe> recipes = api.GetRecipes();
             return View(recipes);
+        }
+
+        [HttpGet]
+        public IActionResult Create(int id)
+        {
+            return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml", id);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

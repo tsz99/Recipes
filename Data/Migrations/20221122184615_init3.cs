@@ -2,7 +2,7 @@
 
 namespace Recipes.Data.Migrations
 {
-    public partial class Recipes5 : Migration
+    public partial class init3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

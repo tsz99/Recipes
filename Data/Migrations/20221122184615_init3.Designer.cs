@@ -10,8 +10,8 @@ using Recipes.Data;
 namespace Recipes.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221118193131_init")]
-    partial class init
+    [Migration("20221122184615_init3")]
+    partial class init3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -223,10 +223,13 @@ namespace Recipes.Data.Migrations
 
             modelBuilder.Entity("Recipes.Data.Recipe", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DB_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -237,7 +240,7 @@ namespace Recipes.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("DB_ID");
 
                     b.ToTable("Recipes");
                 });

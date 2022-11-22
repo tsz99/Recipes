@@ -15,7 +15,7 @@ namespace Recipes.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.30")
+                .HasAnnotation("ProductVersion", "3.1.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -221,10 +221,13 @@ namespace Recipes.Data.Migrations
 
             modelBuilder.Entity("Recipes.Data.Recipe", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DB_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -235,39 +238,9 @@ namespace Recipes.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("DB_ID");
 
                     b.ToTable("Recipes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Image = "url",
-                            ImageType = "png",
-                            Title = "Recipe_1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Image = "url",
-                            ImageType = "png",
-                            Title = "Recipe_2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Image = "url",
-                            ImageType = "png",
-                            Title = "Recipe_3"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Image = "url",
-                            ImageType = "png",
-                            Title = "Recipe_4"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

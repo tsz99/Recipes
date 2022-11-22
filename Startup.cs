@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Recipes.DAL;
 using Recipes.Data;
 using Recipes.Services;
 using System;
@@ -34,6 +35,7 @@ namespace Recipes
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<FoodAPIService>();
+            services.AddScoped<RecipesRepository>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
