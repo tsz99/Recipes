@@ -7,58 +7,41 @@
 <div class="container">
     <div id="modal-placeholder"></div>    
 
-    <div class="row">
-        <section class="col-lg-4">
+    <div class="">
+        <section class="">
             <h2>Recipes Functions</h2>
-            <button id="callAPIButton" type="button">
+            <button id="callAPIButton" class="btn btn-primary">
                 Call API
             </button>
         </section>
-        <section class="col-lg-8">
+        <section class="">
             <h1>Recipes</h1>
 
             <p>
-                <button id="createNewButton" type="button">
-                    Create New Recipe
-                </button>
+                <a href="#" id="createNewButton" class="btn btn-primary">Create New Recipe</a>
             </p>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Title)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Image)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ImageType)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Title)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Image)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ImageType)
-                            </td>
-                            <td>
-                                <button id="editButton_@item.Id" class="editButton">Edit</button> |
-                                <button id="detailsButton_@item.Id" class="detailsButton">Details</button> |
-                                <button id="deleteButton_@item.Id" class="deleteButton">Delete</button> |
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+
+            <div class="card-deck">
+                @foreach (var item in Model)
+                {
+                    <div class="m-2">
+                        <div class="card h-100" style="width:18rem;">
+                            <img class="card-img-top" src=@item.Image alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Title</h5>
+                                <p class="card-text">Description of recipe @item.Id.</p>
+                                <a href="#" id="detailsButton_@item.Id" class="btn btn-primary detailsButton">Details</a>
+                                <a href="#" id="editButton_@item.Id" class="btn btn-primary editButton">Edit</a>
+                                <a href="#" id="deleteButton_@item.Id" class="btn btn-primary deleteButton">Delete</a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Rating ****</small>
+                            </div>
+                        </div>
+                    </div>
+                
+                }
+            </div>
 
         </section>
     </div>
