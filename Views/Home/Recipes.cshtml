@@ -24,13 +24,14 @@
             <div class="card-deck">
                 @foreach (var item in Model)
                 {
-                    <div class="m-2">
-                        <div class="card h-100" style="width:18rem;">
-                            <img class="card-img-top" src=@item.Image alt="Card image cap">
-                            <div class="card-body">
+                    <div class="m-1">
+                        <div class="card h-100 " style="width:18rem;">
+                            <div id="detailsButton_@item.Id" class="card-body detailsButton">
+                                <img class="card-img-top" src=@item.Image alt="Card image cap">
                                 <h5 class="card-title">@item.Title</h5>
                                 <p class="card-text">Description of recipe @item.Id.</p>
-                                <a href="#" id="detailsButton_@item.Id" class="btn btn-primary detailsButton">Details</a>
+                            </div>
+                            <div class="card-body">
                                 <a href="#" id="editButton_@item.Id" class="btn btn-primary editButton">Edit</a>
                                 <a href="#" id="deleteButton_@item.Id" class="btn btn-primary deleteButton">Delete</a>
                             </div>
@@ -39,7 +40,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                 }
             </div>
 
