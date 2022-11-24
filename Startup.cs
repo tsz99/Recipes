@@ -37,6 +37,7 @@ namespace Recipes
             services.AddScoped<FoodAPIService>();
             services.AddScoped<RecipesRepository>();
             services.AddControllersWithViews();
+            services.AddHostedService<DataCollectorService>();
             services.AddRazorPages();
         }
 
