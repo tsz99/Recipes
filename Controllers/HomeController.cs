@@ -44,6 +44,12 @@ namespace Recipes.Controllers
             return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml");
         }
 
+        [HttpPost]
+        public JsonResult Create(Recipe rec)
+        {
+            return Json(new { success = true });
+        }
+
         [HttpGet]
         public IActionResult Edit(int id)
         {

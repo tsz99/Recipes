@@ -1,8 +1,9 @@
-﻿@{
+﻿@model Recipe;
+@{
     Layout = null;
 }
-
-
+@using System.Web;
+@using Recipes.Data;
 <div class="modal fade" tabindex="-1" id="createModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -28,9 +29,25 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary button button4">Create</button>
+                <button type="button" id="submitButton" class="btn btn-primary button button4">Create</button>
                 <button type="button" data-dismiss="modal" class="btn btn-primary button button4">Cancel</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $("#submitButton").click(function () {
+        $.ajax({
+            method: "POST",
+            data: JSON.stringify(@Model),
+            url: "@Url.Action("Create", "Home")",
+            success: function (data) {
+                $('#modal-placeholder > .modal').modal('hide');
+            },
+            error: function (data) {
+                alert('error' + data.status);
+            }
+        });
+    });
+</script>
