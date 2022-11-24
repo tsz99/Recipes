@@ -9,6 +9,7 @@ namespace Recipes.DAL
     public class RecipesRepository
     {
         private ApplicationDbContext _db;
+
         public RecipesRepository(ApplicationDbContext _context)
         {
             _db = _context;
@@ -18,58 +19,63 @@ namespace Recipes.DAL
         {
             foreach (var rec in recipes)
             {
-                var RecipeId = SaveRecipe(rec);
-                foreach (var ai in rec.AnalyzedInstructions)
-                {
-                    var AnalyzedInsId = SaveAnalyzedInstruction(ai);
-                    SaveRecipeAnalyzedInstruction(new RecipeAnalyzedInstruction
-                    {
-                        AnalyzedInstructionId = AnalyzedInsId,
-                        RecipeId = RecipeId
-                    });
-                    foreach (var st in ai.Steps)
-                    {
-                        var StepId = SaveStep(st);
-                        SaveAnalyzedInstructionStep(new AnalyzedInstructionStep
-                        {
-                            AnalyzedInstructionId = AnalyzedInsId,
-                            StepId = StepId
-                        });
-                        foreach (var ing in st.Ingredients)
-                        {
-                            var IngId = SaveIngredient(ing);
-                            SaveStepIngredient(new StepIngredient
-                            {
-                                IngredientId = IngId,
-                                StepId = StepId
-                            });
-                        }
-
-                        foreach (var eq in st.Equipment)
-                        {
-                            var EqId = SaveEquipment(eq);
-                            SaveStepEquipment(new StepEquipment
-                            {
-                                EquipmentId = EqId,
-                                StepId = StepId
-                            });
-                        }
-                    }
-                }
-                foreach (var exIng in rec.ExtendedIngredients)
-                {
-                    var exIngId = SaveExtendedIngredient(exIng);
-                    SaveRecipeExtendedIngredient(new RecipeExtendedIngredient
-                    {
-                        ExtendedIngredientId = exIngId,
-                        RecipeId = RecipeId
-                    });
-                }
+                SaveRecipeRecursively(rec);
             }
             _db.SaveChanges();
         }
 
+        public void SaveRecipeRecursively(Recipe rec)
+        {
+            var RecipeId = SaveRecipe(rec);
+            foreach (var ai in rec.AnalyzedInstructions)
+            {
+                var AnalyzedInsId = SaveAnalyzedInstruction(ai);
+                SaveRecipeAnalyzedInstruction(new RecipeAnalyzedInstruction
+                {
+                    AnalyzedInstructionId = AnalyzedInsId,
+                    RecipeId = RecipeId
+                });
+                foreach (var st in ai.Steps)
+                {
+                    var StepId = SaveStep(st);
+                    SaveAnalyzedInstructionStep(new AnalyzedInstructionStep
+                    {
+                        AnalyzedInstructionId = AnalyzedInsId,
+                        StepId = StepId
+                    });
+                    foreach (var ing in st.Ingredients)
+                    {
+                        var IngId = SaveIngredient(ing);
+                        SaveStepIngredient(new StepIngredient
+                        {
+                            IngredientId = IngId,
+                            StepId = StepId
+                        });
+                    }
 
+                    foreach (var eq in st.Equipment)
+                    {
+                        var EqId = SaveEquipment(eq);
+                        SaveStepEquipment(new StepEquipment
+                        {
+                            EquipmentId = EqId,
+                            StepId = StepId
+                        });
+                    }
+                }
+            }
+            foreach (var exIng in rec.ExtendedIngredients)
+            {
+                var exIngId = SaveExtendedIngredient(exIng);
+                SaveRecipeExtendedIngredient(new RecipeExtendedIngredient
+                {
+                    ExtendedIngredientId = exIngId,
+                    RecipeId = RecipeId
+                });
+            }
+            _db.SaveChanges();
+        }
+    
         private int SaveIngredient(Ingredient Ingredient)
         {
             var dbIngredient = _db.Ingredients.FirstOrDefault(x => (x.IngredientId == Ingredient.IngredientId));
@@ -81,7 +87,6 @@ namespace Recipes.DAL
             }
             return dbIngredient.IngredientId;
         }
-
 
         private int SaveExtendedIngredient(ExtendedIngredient ExtendedIngredient)
         {
@@ -183,22 +188,70 @@ namespace Recipes.DAL
 
         private int SaveRecipe(Recipe Recipe)
         {
-            var dbRecipe = _db.Recipes.FirstOrDefault(x => (x.Id == Recipe.Id));
+            var dbRecipe = _db.Recipes.FirstOrDefault(x => (x.Id == Recipe.Id && x.CreatorUser == Recipe.CreatorUser));
             if (dbRecipe == null)
             {
                 _db.Recipes.Add(Recipe);
                 _db.SaveChanges();
-                return Recipe.Id;
+                return Recipe.DB_ID;
             }
-            return dbRecipe.Id;
+            return dbRecipe.DB_ID;
         }
 
         public Recipe GetRecipeById(int id)
         {
-           return _db.Recipes.FirstOrDefault(x => x.Id == id);
+            var recipe = _db.Recipes.FirstOrDefault(x => x.DB_ID == id);
+            if (recipe == null) return null;
+            var analyzedInstructionIds = _db.RecipeAnalyzedInstructions.Where(x => x.RecipeId == recipe.DB_ID)
+                                                                     .Select(y => y.AnalyzedInstructionId)
+                                                                     .ToList();
+            var analyzedInstructions = _db.AnalyzedInstructions.Where(x => analyzedInstructionIds.Contains(x.DB_ID)).ToList();
+            
+            foreach (var item in analyzedInstructions)
+            {
+                var stepIds = _db.AnalyzedInstructionSteps.Where(x => x.StepId == item.DB_ID)
+                                                            .Select(y => y.AnalyzedInstructionId)
+                                                            .ToList();
+                var steps = _db.Steps.Where(x => stepIds.Contains(x.StepId)).ToList();
+                foreach (var step in steps)
+                {
+                    var ingredientIds = _db.StepIngredients.Where(x => x.StepId == step.StepId)
+                                                            .Select(y => y.IngredientId)
+                                                            .ToList();
+                    var ingredients = _db.Ingredients.Where(x => ingredientIds.Contains(x.IngredientId)).ToList();
+                    step.Ingredients = ingredients;
+                }
+                item.Steps = steps;
+            }
+            recipe.AnalyzedInstructions = analyzedInstructions;
+
+            var extendedIngredientIds = _db.RecipeExtendedIngredients.Where(x => x.RecipeId == recipe.DB_ID)
+                                                                     .Select(y => y.ExtendedIngredientId)
+                                                                     .ToList();
+            var extendedIngredients = _db.ExtendedIngredients.Where(x => extendedIngredientIds.Contains(x.DB_ID)).ToList();
+            recipe.ExtendedIngredients = extendedIngredients;
+
+            return recipe;
         }
 
-        public List<Recipe> GetAllRecipes()
+        public List<Recipe> GetRecipeByFilter(string? name, bool? vegetarian, bool? vegan, bool? glutenFree, bool? dairyFree)
+        {
+            return _db.Recipes
+                            .Where(x => x.Vegetarian == vegetarian || vegetarian == null)
+                            .Where(x => x.Vegan == vegan || vegan == null)
+                            .Where(x => x.GlutenFree == glutenFree || glutenFree == null)
+                            .Where(x => x.DairyFree == dairyFree || dairyFree == null)
+                            .Where(x => x.Title.ToLower().Contains(name.ToLower()) || name == null)
+                            .ToList();
+                              
+        }
+
+        public List<Ingredient> GetAllIngredients(int? count)
+        {
+            return _db.Ingredients.ToList();
+        }
+
+        public List<Recipe> GetAllRecipes(int? count)
         {
             return _db.Recipes.ToList();
         }
