@@ -10,14 +10,14 @@ using Recipes.Data;
 namespace Recipes.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221122184615_init3")]
-    partial class init3
+    [Migration("20221124092046_v2")]
+    partial class v2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.11")
+                .HasAnnotation("ProductVersion", "3.1.30")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -221,7 +221,40 @@ namespace Recipes.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Recipes.Data.Recipe", b =>
+            modelBuilder.Entity("Recipes.Data.AnalyzedInstruction", b =>
+                {
+                    b.Property<int>("DB_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RecipeDB_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DB_ID");
+
+                    b.HasIndex("RecipeDB_ID");
+
+                    b.ToTable("AnalyzedInstructions");
+                });
+
+            modelBuilder.Entity("Recipes.Data.AnalyzedInstructionStep", b =>
+                {
+                    b.Property<int>("StepId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AnalyzedInstructionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StepId", "AnalyzedInstructionId");
+
+                    b.ToTable("AnalyzedInstructionSteps");
+                });
+
+            modelBuilder.Entity("Recipes.Data.Equipment", b =>
                 {
                     b.Property<int>("DB_ID")
                         .ValueGeneratedOnAdd()
@@ -234,15 +267,258 @@ namespace Recipes.Data.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageType")
+                    b.Property<string>("LocalizedName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DB_ID");
 
+                    b.ToTable("Equipments");
+                });
+
+            modelBuilder.Entity("Recipes.Data.ExtendedIngredient", b =>
+                {
+                    b.Property<int>("DB_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Aisle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Consistency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameClean")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Original")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginalName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RecipeDB_ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DB_ID");
+
+                    b.HasIndex("RecipeDB_ID");
+
+                    b.ToTable("ExtendedIngredients");
+                });
+
+            modelBuilder.Entity("Recipes.Data.Ingredient", b =>
+                {
+                    b.Property<int>("DB_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LocalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DB_ID");
+
+                    b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("Recipes.Data.Recipe", b =>
+                {
+                    b.Property<int>("DB_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AggregateLikes")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Cheap")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CookingMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatorUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreditsText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("DairyFree")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Gaps")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("GlutenFree")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("HealthScore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Instructions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("License")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LowFodmap")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PreparationMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<double>("PricePerServing")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ReadyInMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Servings")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SourceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SourceUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpoonacularSourceUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Sustainable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Vegan")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Vegetarian")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("VeryHealthy")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("VeryPopular")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("WeightWatcherSmartPoints")
+                        .HasColumnType("int");
+
+                    b.HasKey("DB_ID");
+
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("Recipes.Data.RecipeAnalyzedInstruction", b =>
+                {
+                    b.Property<int>("AnalyzedInstructionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AnalyzedInstructionId", "RecipeId");
+
+                    b.ToTable("RecipeAnalyzedInstructions");
+                });
+
+            modelBuilder.Entity("Recipes.Data.RecipeExtendedIngredient", b =>
+                {
+                    b.Property<int>("ExtendedIngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ExtendedIngredientId", "RecipeId");
+
+                    b.ToTable("RecipeExtendedIngredients");
+                });
+
+            modelBuilder.Entity("Recipes.Data.Step", b =>
+                {
+                    b.Property<int>("StepId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StepDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StepId");
+
+                    b.ToTable("Steps");
+                });
+
+            modelBuilder.Entity("Recipes.Data.StepEquipment", b =>
+                {
+                    b.Property<int>("StepId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StepId", "EquipmentId");
+
+                    b.ToTable("StepEquipments");
+                });
+
+            modelBuilder.Entity("Recipes.Data.StepIngredient", b =>
+                {
+                    b.Property<int>("StepId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StepId", "IngredientId");
+
+                    b.ToTable("StepIngredients");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -294,6 +570,20 @@ namespace Recipes.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Recipes.Data.AnalyzedInstruction", b =>
+                {
+                    b.HasOne("Recipes.Data.Recipe", null)
+                        .WithMany("AnalyzedInstructions")
+                        .HasForeignKey("RecipeDB_ID");
+                });
+
+            modelBuilder.Entity("Recipes.Data.ExtendedIngredient", b =>
+                {
+                    b.HasOne("Recipes.Data.Recipe", null)
+                        .WithMany("ExtendedIngredients")
+                        .HasForeignKey("RecipeDB_ID");
                 });
 #pragma warning restore 612, 618
         }

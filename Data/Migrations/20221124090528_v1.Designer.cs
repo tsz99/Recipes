@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Recipes.Data;
 
 namespace Recipes.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221124090528_v1")]
+    partial class v1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,6 +300,9 @@ namespace Recipes.Data.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("MeasuresDB_ID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -317,6 +322,8 @@ namespace Recipes.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DB_ID");
+
+                    b.HasIndex("MeasuresDB_ID");
 
                     b.HasIndex("RecipeDB_ID");
 
@@ -345,6 +352,49 @@ namespace Recipes.Data.Migrations
                     b.HasKey("DB_ID");
 
                     b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("Recipes.Data.Measures", b =>
+                {
+                    b.Property<int>("DB_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("MetricDB_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UsDB_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DB_ID");
+
+                    b.HasIndex("MetricDB_ID");
+
+                    b.HasIndex("UsDB_ID");
+
+                    b.ToTable("Measures");
+                });
+
+            modelBuilder.Entity("Recipes.Data.Metric", b =>
+                {
+                    b.Property<int>("DB_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UnitLong")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnitShort")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DB_ID");
+
+                    b.ToTable("Metrics");
                 });
 
             modelBuilder.Entity("Recipes.Data.Recipe", b =>
@@ -519,6 +569,27 @@ namespace Recipes.Data.Migrations
                     b.ToTable("StepIngredients");
                 });
 
+            modelBuilder.Entity("Recipes.Data.Us", b =>
+                {
+                    b.Property<int>("DB_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UnitLong")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnitShort")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DB_ID");
+
+                    b.ToTable("Us");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -579,9 +650,24 @@ namespace Recipes.Data.Migrations
 
             modelBuilder.Entity("Recipes.Data.ExtendedIngredient", b =>
                 {
+                    b.HasOne("Recipes.Data.Measures", "Measures")
+                        .WithMany()
+                        .HasForeignKey("MeasuresDB_ID");
+
                     b.HasOne("Recipes.Data.Recipe", null)
                         .WithMany("ExtendedIngredients")
                         .HasForeignKey("RecipeDB_ID");
+                });
+
+            modelBuilder.Entity("Recipes.Data.Measures", b =>
+                {
+                    b.HasOne("Recipes.Data.Metric", "Metric")
+                        .WithMany()
+                        .HasForeignKey("MetricDB_ID");
+
+                    b.HasOne("Recipes.Data.Us", "Us")
+                        .WithMany()
+                        .HasForeignKey("UsDB_ID");
                 });
 #pragma warning restore 612, 618
         }
