@@ -6,8 +6,15 @@
 @using Recipes.Data;
 @using Newtonsoft.Json;
 @model Recipe
+@Html.RenderUnobtrusiveAjaxScript();
+
 <div class="modal fade" tabindex="-1" id="createModal"
      data-keyboard="false" data-backdrop="static">
+@using (Html.AjaxBeginForm("Create", "Home", new AjaxOptions{ 
+    OnSuccess = "onSuccess",
+    HttpMethod = "Post"
+}))
+{
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -15,6 +22,7 @@
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
             <div class="modal-body m-3">
+
                 <div class="input-group input-group-lg mb-3">
                     <span class="input-group-text" id="">Title</span>
                     @Html.TextBoxFor(model => model.Title, new { @placeholder = "Title Name", @class = "form-control" })
@@ -60,28 +68,19 @@
             </div>
             
             <div class="modal-footer">
-                <button type="button" id="submitButton" class="btn btn-primary button button4">Create</button>
+                <button type="submit" class="btn btn-primary button button4">Create</button>
                 <button type="button" data-dismiss="modal" class="btn btn-primary button button4">Cancel</button>
             </div>
             
         </div>
     </div>
+}
 </div>
-
 <script>
-    $("#submitButton").click(function () {
-        debugger;
-        let model  = @Html.Raw(JsonConvert.SerializeObject(Model));
-        $.ajax({
-            method: "POST",
-            data: model,
-            url: "@Url.Action("Create", "Home")",
-            success: function (data) {
-                $('#modal-placeholder > .modal').modal('hide');
-            },
-            error: function (data) {
-                alert('error' + data.status);
-            }
-        });
-    });
+
+
+    function onSuccess(){
+        $('#modal-placeholder > .modal').modal('hide');
+    }
+
 </script>
