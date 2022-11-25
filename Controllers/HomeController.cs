@@ -39,12 +39,14 @@ namespace Recipes.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml");
+            Recipe rec = new Recipe();
+            return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml", rec);
         }
 
         [HttpPost]
         public JsonResult Create(Recipe rec)
         {
+            string title = rec.Title;
             return Json(new { success = true });
         }
 
