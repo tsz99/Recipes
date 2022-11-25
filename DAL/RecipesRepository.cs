@@ -234,7 +234,7 @@ namespace Recipes.DAL
             return recipe;
         }
 
-        public List<Recipe> GetRecipeByFilter(string? name, bool? vegetarian, bool? vegan, bool? glutenFree, bool? dairyFree)
+        public List<Recipe> GetRecipeByFilter(string? name = null, bool? vegetarian = null, bool? vegan = null, bool? glutenFree = null, bool? dairyFree = null)
         {
             return _db.Recipes
                             .Where(x => x.Vegetarian == vegetarian || vegetarian == null)

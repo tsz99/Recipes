@@ -43,6 +43,14 @@ namespace Recipes.Controllers
             return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml", rec);
         }
 
+
+        [HttpGet]
+        public IActionResult Search()
+        {
+            List<Recipe> recipesFiltered = repo.GetRecipeByFilter();
+            return View(recipesFiltered);
+        }
+
         [HttpPost]
         public JsonResult Create(Recipe rec)
         {
