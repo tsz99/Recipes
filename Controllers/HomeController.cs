@@ -4,6 +4,7 @@ using Recipes.DAL;
 using Recipes.Data;
 using Recipes.Models;
 using Recipes.Services;
+using Recipes.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -39,8 +40,8 @@ namespace Recipes.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            Recipe rec = new Recipe() { Title = "ASD" };
-            return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml", rec);
+            var allIngredients = repo.GetAllIngredients(null);
+            return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml", new RecipeVM(allIngredients) { });
         }
 
 
@@ -52,9 +53,13 @@ namespace Recipes.Controllers
         }
 
         [HttpPost]
-        public JsonResult Create(Recipe rec)
-        {
-            string title = rec.Title;
+        public IActionResult Create(RecipeVM rec)
+        { 
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem();
+            }
+            repo.SaveUserCreatedRecipe(rec.ToRecipe());
             return Json(new { success = true });
         }
 
@@ -69,7 +74,7 @@ namespace Recipes.Controllers
         public IActionResult Details(int id)
         {
             Recipe rec = repo.GetRecipeById(id);
-            return PartialView("~/Views/Home/PartialViews/_DetailsRecipe.cshtml", rec);
+            return PartialView("~/Views/Home/PartialViews/_DetailsRecipe.cshtml", new RecipeVM(rec));
         }
 
         [HttpGet]

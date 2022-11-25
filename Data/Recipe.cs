@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -105,6 +106,9 @@ namespace Recipes.Data
 
         [JsonProperty("spoonacularSourceUrl")]
         public string SpoonacularSourceUrl { get; set; }
+
+        [NotMapped]
+        public List<Ingredient> Ingredients { get; set; }
 
         public string CreatorUser { get; set; }
     }

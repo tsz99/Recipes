@@ -20,6 +20,7 @@ namespace Recipes.Data
         public DbSet<RecipeExtendedIngredient> RecipeExtendedIngredients { get; set; }
         public DbSet<StepEquipment> StepEquipments { get; set; }
         public DbSet<StepIngredient> StepIngredients { get; set; }
+        public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -40,6 +41,8 @@ namespace Recipes.Data
                 .HasKey(x => new { x.StepId, x.EquipmentId });
             builder.Entity<StepIngredient>()
                 .HasKey(x => new { x.StepId, x.IngredientId });
+            builder.Entity<RecipeIngredient>()
+                .HasKey(x => new { x.RecipeId, x.IngredientId });
         }
     }
 }

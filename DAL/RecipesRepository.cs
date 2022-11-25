@@ -24,7 +24,7 @@ namespace Recipes.DAL
             _db.SaveChanges();
         }
 
-        public void SaveRecipeRecursively(Recipe rec)
+        private void SaveRecipeRecursively(Recipe rec)
         {
             var RecipeId = SaveRecipe(rec);
             foreach (var ai in rec.AnalyzedInstructions)
@@ -51,6 +51,11 @@ namespace Recipes.DAL
                             IngredientId = IngId,
                             StepId = StepId
                         });
+                        SaveRecipeIngredient(new RecipeIngredient
+                        {
+                            IngredientId = IngId,
+                            RecipeId = RecipeId,
+                        });
                     }
 
                     foreach (var eq in st.Equipment)
@@ -75,7 +80,17 @@ namespace Recipes.DAL
             }
             _db.SaveChanges();
         }
-    
+
+        private void SaveRecipeIngredient(RecipeIngredient RecipeIngredient)
+        {
+            var dbRecipeIngredient = _db.RecipeIngredients.FirstOrDefault(x => (x.IngredientId == RecipeIngredient.IngredientId && x.RecipeId == RecipeIngredient.RecipeId));
+            if (dbRecipeIngredient == null)
+            {
+                _db.RecipeIngredients.Add(RecipeIngredient);
+                _db.SaveChanges();
+            }
+        }
+
         private int SaveIngredient(Ingredient Ingredient)
         {
             var dbIngredient = _db.Ingredients.FirstOrDefault(x => (x.IngredientId == Ingredient.IngredientId));
@@ -84,6 +99,11 @@ namespace Recipes.DAL
                 _db.Ingredients.Add(Ingredient);
                 _db.SaveChanges();
                 return Ingredient.IngredientId;
+            }
+            else
+            {
+                dbIngredient = Ingredient;
+                _db.SaveChanges();
             }
             return dbIngredient.IngredientId;
         }
@@ -97,6 +117,11 @@ namespace Recipes.DAL
                 _db.SaveChanges();
                 return ExtendedIngredient.Id;
             }
+            else
+            {
+                dbExtendedIngredient = ExtendedIngredient;
+                _db.SaveChanges();
+            }
             return dbExtendedIngredient.Id;
         }
 
@@ -109,6 +134,11 @@ namespace Recipes.DAL
                 _db.SaveChanges();
                 return Equipment.Id;
             }
+            else
+            {
+                dbEquipment = Equipment;
+                _db.SaveChanges();
+            }
             return dbEquipment.Id;
         }
 
@@ -120,6 +150,11 @@ namespace Recipes.DAL
                 _db.AnalyzedInstructions.Add(AnalyzedInstruction);
                 _db.SaveChanges();
                 return AnalyzedInstruction.DB_ID;
+            }
+            else
+            {
+                dbAnalyzedInstruction = AnalyzedInstruction;
+                _db.SaveChanges();
             }
             return dbAnalyzedInstruction.DB_ID;
         }
@@ -163,6 +198,11 @@ namespace Recipes.DAL
                 _db.SaveChanges();
                 return step.StepId;
             }
+            else
+            {
+                dbStep = step;
+                _db.SaveChanges();
+            }
             return dbStep.StepId;
         }
 
@@ -195,6 +235,11 @@ namespace Recipes.DAL
                 _db.SaveChanges();
                 return Recipe.DB_ID;
             }
+            else
+            {
+                dbRecipe = Recipe;
+                _db.SaveChanges();
+            }
             return dbRecipe.DB_ID;
         }
 
@@ -213,17 +258,15 @@ namespace Recipes.DAL
                                                             .Select(y => y.AnalyzedInstructionId)
                                                             .ToList();
                 var steps = _db.Steps.Where(x => stepIds.Contains(x.StepId)).ToList();
-                foreach (var step in steps)
-                {
-                    var ingredientIds = _db.StepIngredients.Where(x => x.StepId == step.StepId)
-                                                            .Select(y => y.IngredientId)
-                                                            .ToList();
-                    var ingredients = _db.Ingredients.Where(x => ingredientIds.Contains(x.IngredientId)).ToList();
-                    step.Ingredients = ingredients;
-                }
                 item.Steps = steps;
             }
             recipe.AnalyzedInstructions = analyzedInstructions;
+
+            var ingredientIds = _db.RecipeIngredients.Where(x => x.RecipeId == recipe.DB_ID)
+                                        .Select(y => y.IngredientId)
+                                        .ToList();
+            var ingredients = _db.Ingredients.Where(x => ingredientIds.Contains(x.IngredientId)).ToList();
+            recipe.Ingredients = ingredients;
 
             var extendedIngredientIds = _db.RecipeExtendedIngredients.Where(x => x.RecipeId == recipe.DB_ID)
                                                                      .Select(y => y.ExtendedIngredientId)
@@ -256,5 +299,43 @@ namespace Recipes.DAL
             return _db.Recipes.ToList();
         }
 
+        public void SaveUserCreatedRecipe(Recipe newRecipe)
+        {
+            var dbRecipe = _db.Recipes.FirstOrDefault(x => x.Id == newRecipe.Id && x.CreatorUser == newRecipe.CreatorUser);
+            if (dbRecipe != null)
+            {
+                var tmpId = dbRecipe.DB_ID;
+                dbRecipe = newRecipe;
+                dbRecipe.DB_ID = tmpId;
+                var existingIngredientsToRecipe = _db.RecipeIngredients.Where(x => x.RecipeId == dbRecipe.DB_ID);
+                var newRecipeIngredientIds = newRecipe.Ingredients.Select(y => y.DB_ID).ToList();
+                var toRemove = existingIngredientsToRecipe.Where(x => !newRecipeIngredientIds.Contains(x.IngredientId)).ToList();
+                /*Remove*/
+                toRemove.ForEach(x => _db.RecipeIngredients.Remove(x));
+                /*Add*/
+                var toAdd = existingIngredientsToRecipe.Where(x => newRecipeIngredientIds.Contains(x.IngredientId)).ToList();
+                foreach (var ingredient in toAdd)
+                { 
+                    SaveRecipeIngredient(new RecipeIngredient()
+                    {
+                        RecipeId = dbRecipe.DB_ID,
+                        IngredientId = ingredient.IngredientId
+                    });
+                }
+            }
+            else
+            {
+                var recipeId = SaveRecipe(newRecipe);
+                foreach (var ingredient in newRecipe.Ingredients)
+                {
+                    SaveRecipeIngredient(new RecipeIngredient()
+                    {
+                        RecipeId = dbRecipe.DB_ID,
+                        IngredientId = ingredient.IngredientId
+                    });
+                }
+            }
+            _db.SaveChanges();
+        }
     }
 }
