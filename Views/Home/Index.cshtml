@@ -1,9 +1,157 @@
-﻿@{
+﻿@model IEnumerable<Recipes.Data.Recipe>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div id="modal-placeholder"></div>
+
+    <div class="row">
+        <section class="col-2">
+            <h2>Search Recipes</h2>
+
+            <div class="form-floating mb-3">
+                <input class="form-control" id="floatingInput" placeholder="Boiled Egg">
+                <label for="floatingInput">Title</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" value="" id="checkVegetarian">
+                <label class="form-check-label" for="checkVegetarian">
+                    Vegetarian
+                </label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" value="" id="checkVegan">
+                <label class="form-check-label" for="checkVegan">
+                    Vegan
+                </label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" value="" id="checkGlutenFree">
+                <label class="form-check-label" for="checkGlutenFree">
+                    GlutenFree
+                </label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" value="" id="checkDiaryFree">
+                <label class="form-check-label" for="checkDiaryFree">
+                    DiaryFree
+                </label>
+            </div>
+
+            <button id="callAPIButton" class="btn btn-primary m-3">
+                Search
+            </button>
+
+        </section>
+        <section class="col-10">
+            <h1>Recipes</h1>
+
+            <p>
+                <a href="#" id="createNewButton" class="btn btn-primary">Create New Recipe</a>
+            </p>
+
+            <div class="row row-cols-1 row-cols-lg-2 g-3">
+                @foreach (var item in Model)
+                {
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img id="detailsButton_@item.DB_ID" class="card-img-top detailsButton" src=@item.Image alt="Card image cap">
+                            <div id="detailsButton_@item.DB_ID" class="card-body detailsButton">
+                                <h5 class="card-title ">@item.Title</h5>
+                                <div class="card-text ">@Html.Raw(@item.Summary)</div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" id="editButton_@item.DB_ID" class="btn btn-sm btn-outline-secondary editButton">Edit</button>
+                                        <button type="button" id="deleteButton_@item.DB_ID" class="btn btn-sm btn-outline-secondary deleteButton">Delete</button>
+                                    </div>
+                                    <small class="text-muted">@item.ReadyInMinutes min</small>
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted text-center">@item.SourceName</small>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+        </section>
+    </div>
 </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+</script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+    $("#createNewButton").click(function () {
+        debugger;
+        let url = new URL(location.origin + '@Url.Action("Create", "Home")');
+        $.get(url).done(function (data) {
+            $('#modal-placeholder').html(data);
+            $('#modal-placeholder > .modal').modal('show');
+        });
+    });
+
+    $(".editButton").click(function (e) {
+        debugger;
+        let idVal = e.currentTarget.id.split('_')[1];
+        let url = new URL(location.origin + '@Url.Action("Edit", "Home")');
+        url.searchParams.append('id', idVal);
+        $.get(url).done(function (data) {
+            $('#modal-placeholder').html(data);
+            $('#modal-placeholder > .modal').modal('show');
+        });
+    });
+
+    $(".detailsButton").click(function (e) {
+        debugger;
+        let idVal = e.currentTarget.id.split('_')[1];
+        let url = new URL(location.origin + '@Url.Action("Details", "Home")');
+        url.searchParams.append('id', idVal);
+        $.get(url).done(function (data) {
+            $('#modal-placeholder').html(data);
+            $('#modal-placeholder > .modal').modal('show');
+        });
+    });
+
+        $(".deleteButton").click(function (e) {
+        debugger;
+        let idVal = e.currentTarget.id.split('_')[1];
+        let url = new URL(location.origin + '@Url.Action("Delete", "Home")');
+        url.searchParams.append('id', idVal);
+        $.get(url).done(function (data) {
+            $('#modal-placeholder').html(data);
+            $('#modal-placeholder > .modal').modal('show');
+        });
+    });
+
+
+    $("#btnHideModal").click(function () {
+        $("#modal-placeholder").modal('hide');
+    });
+
+    function closeModal(e){
+        debugger;
+        alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
+    }
+    function OnSuccess(data) {
+        debugger;
+        alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
+     }
+</script>
+
 

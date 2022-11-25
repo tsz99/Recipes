@@ -25,17 +25,12 @@ namespace Recipes.Controllers
             repo = _repo;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult Privacy()
         {
             return View();
         }
 
-        public IActionResult Recipes()
+        public IActionResult Index()
         {
             IEnumerable<Recipe> recipes = api.GetRecipes();
             return View(recipes);
