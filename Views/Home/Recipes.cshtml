@@ -5,10 +5,10 @@
 }
 
 <div class="container">
-    <div id="modal-placeholder"></div>    
+    <div id="modal-placeholder"></div>
 
     <div class="row">
-        <section class="col-3">
+        <section class="col-2">
             <h2>Search Recipes</h2>
 
             <div class="form-floating mb-3">
@@ -49,26 +49,33 @@
             </button>
 
         </section>
-        <section class="col-9">
+        <section class="col-10">
             <h1>Recipes</h1>
 
             <p>
                 <a href="#" id="createNewButton" class="btn btn-primary">Create New Recipe</a>
             </p>
 
-            <div class="card-deck">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 @foreach (var item in Model)
                 {
-                    <div class="m-1">
-                        <div class="card h-100 " style="width:18rem;">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img id="detailsButton_@item.Id" class="card-img-top detailsButton" src=@item.Image alt="Card image cap">
                             <div id="detailsButton_@item.Id" class="card-body detailsButton">
-                                <img class="card-img-top" src=@item.Image alt="Card image cap">
-                                <h5 class="card-title">@item.Title</h5>
-                                <p class="card-text">@item.Summary.Substring(0, 200)...</p>
+                                <h5 class="card-title ">@item.Title</h5>
+                                <p class="card-text ">@item.Summary.Substring(0, 200)...</p>
                             </div>
                             <div class="card-body">
-                                <a href="#" id="editButton_@item.Id" class="btn btn-primary editButton">Edit</a>
-                                <a href="#" id="deleteButton_@item.Id" class="btn btn-primary deleteButton">Delete</a>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" id="editButton_@item.Id" class="btn btn-sm btn-outline-secondary editButton">Edit</button>
+                                        <button type="button" id="deleteButton_@item.Id" class="btn btn-sm btn-outline-secondary deleteButton">Delete</button>
+                                    </div>
+                                    <small class="text-muted">@item.ReadyInMinutes min</small>
+                                </div>
+
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted text-center">@item.SourceName</small>
@@ -139,11 +146,11 @@
 
     function closeModal(e){
         debugger;
-        alert('HTTP Status Code: ' + data.param1 + "  " + data.param2); 
+        alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
     }
-    function OnSuccess(data) {  
+    function OnSuccess(data) {
         debugger;
-        alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);  
+        alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
      }
 </script>
 
