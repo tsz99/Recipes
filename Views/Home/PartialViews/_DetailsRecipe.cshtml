@@ -1,65 +1,54 @@
-﻿@{
+﻿@model Recipe;
+@{
     Layout = null;
 }
-@model int;
+@using System.Web;
+@using Recipes.Data;
 
-    <div class="modal fade" tabindex="-1" id="detailsModal"
-         data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Details</h4>
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                </div>
-                <div class="modal-body m-3">
-                    <form>
-                        <fieldset disabled>
+<div class="modal fade" tabindex="-1" id="detailsModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">@Model.Title</h3>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body m-3">
+                <form>
+                    <p>
+                        @Html.Raw(@Model.Summary)
+                    </p>
 
-                            <div class="input-group input-group-lg mb-3">
-                                <span class="input-group-text" id="">Title</span>
-                                <input type="text" class="form-control" placeholder="Title Name">
-                            </div>
+                    <fieldset disabled>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="checkVegetarian" @(Model.Vegetarian ? "checked" : "")>
+                            <label class="form-check-label" for="checkVegetarian">Vegetarian</label>
+                        </div>
 
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Summary</span>
-                                <textarea class="form-control">Place of Summary</textarea>
-                            </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="checkVegan" @(Model.Vegan ? "checked" : "")>
+                            <label class="form-check-label" for="checkVegan">Vegan</label>
+                        </div>
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" value="" id="checkVegetarian">
-                                <label class="form-check-label" for="checkVegetarian">
-                                    Vegetarian
-                                </label>
-                            </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="checkGlutenFree" @(Model.GlutenFree ? "checked" : "")>
+                            <label class="form-check-label" for="checkGlutenFree">GlutenFree</label>
+                        </div>
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" value="" id="checkVegan">
-                                <label class="form-check-label" for="checkVegan">
-                                    Vegan
-                                </label>
-                            </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="checkDiaryFree" @(Model.DairyFree ? "checked" : "")>
+                            <label class="form-check-label" for="checkDiaryFree">DiaryFree</label>
+                        </div>
+                    </fieldset>
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" value="" id="checkGlutenFree" checked>
-                                <label class="form-check-label" for="checkGlutenFree">
-                                    GlutenFree
-                                </label>
-                            </div>
+                    <h5>Instructions</h5>
+                    <p>@Html.Raw(@Model.Instructions)</p>
 
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" value="" id="checkDiaryFree">
-                                <label class="form-check-label" for="checkDiaryFree">
-                                    DiaryFree
-                                </label>
-                            </div>
-
-
-                        </fieldset>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary button button4">Cancel</button>
-                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-primary button button4">Cancel</button>
             </div>
         </div>
     </div>
+</div>

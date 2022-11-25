@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Recipes.DAL;
 using Recipes.Data;
 using Recipes.Models;
 using Recipes.Services;
@@ -15,11 +16,13 @@ namespace Recipes.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private FoodAPIService api;
+        private RecipesRepository repo;
 
-        public HomeController(ILogger<HomeController> logger, FoodAPIService service)
+        public HomeController(ILogger<HomeController> logger, FoodAPIService service, RecipesRepository _repo)
         {
             _logger = logger;
             api = service;
+            repo = _repo;
         }
 
         public IActionResult Index()
@@ -53,13 +56,15 @@ namespace Recipes.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return PartialView("~/Views/Home/PartialViews/_EditRecipe.cshtml", id);
+            Recipe rec = repo.GetRecipeById(id);
+            return PartialView("~/Views/Home/PartialViews/_EditRecipe.cshtml", rec);
         }
 
         [HttpGet]
         public IActionResult Details(int id)
         {
-            return PartialView("~/Views/Home/PartialViews/_DetailsRecipe.cshtml", id);
+            Recipe rec = repo.GetRecipeById(id);
+            return PartialView("~/Views/Home/PartialViews/_DetailsRecipe.cshtml", rec);
         }
 
         [HttpGet]

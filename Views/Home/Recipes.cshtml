@@ -56,22 +56,22 @@
                 <a href="#" id="createNewButton" class="btn btn-primary">Create New Recipe</a>
             </p>
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="row row-cols-1 row-cols-lg-2 g-3">
                 @foreach (var item in Model)
                 {
                     <div class="col">
                         <div class="card shadow-sm">
-                            <img id="detailsButton_@item.Id" class="card-img-top detailsButton" src=@item.Image alt="Card image cap">
-                            <div id="detailsButton_@item.Id" class="card-body detailsButton">
+                            <img id="detailsButton_@item.DB_ID" class="card-img-top detailsButton" src=@item.Image alt="Card image cap">
+                            <div id="detailsButton_@item.DB_ID" class="card-body detailsButton">
                                 <h5 class="card-title ">@item.Title</h5>
-                                <p class="card-text ">@item.Summary.Substring(0, 200)...</p>
+                                <div class="card-text ">@Html.Raw(@item.Summary)</div>
                             </div>
                             <div class="card-body">
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button type="button" id="editButton_@item.Id" class="btn btn-sm btn-outline-secondary editButton">Edit</button>
-                                        <button type="button" id="deleteButton_@item.Id" class="btn btn-sm btn-outline-secondary deleteButton">Delete</button>
+                                        <button type="button" id="editButton_@item.DB_ID" class="btn btn-sm btn-outline-secondary editButton">Edit</button>
+                                        <button type="button" id="deleteButton_@item.DB_ID" class="btn btn-sm btn-outline-secondary deleteButton">Delete</button>
                                     </div>
                                     <small class="text-muted">@item.ReadyInMinutes min</small>
                                 </div>
