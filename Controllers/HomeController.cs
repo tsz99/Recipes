@@ -18,7 +18,7 @@ namespace Recipes.Controllers
         private readonly ILogger<HomeController> _logger;
         private FoodAPIService api;
         private RecipesRepository repo;
-
+        private List<Recipe> filteredRecipes;
         public HomeController(ILogger<HomeController> logger, FoodAPIService service, RecipesRepository _repo)
         {
             _logger = logger;
@@ -31,10 +31,43 @@ namespace Recipes.Controllers
             return View();
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(bool isGlutenFree = false, bool isDiaryFree = false, bool isVegan = false, bool isVegetarian = false, string title = "")
         {
-            IEnumerable<Recipe> recipes = api.GetRecipes();
-            return View(recipes);
+            if (!isGlutenFree && !isDiaryFree && !isVegan && !isVegetarian && title == "")
+            {
+                List<Recipe> recipes = repo.GetAllRecipes(null);
+                return View(new IndexVM()
+                {
+                    Recipes = recipes
+                    ,IsDiaryFree = isDiaryFree
+                    ,IsGlutenFree = isGlutenFree
+                    ,IsVegan = isVegan
+                    ,IsVegetarian = isVegetarian
+                    ,Title = title
+                });
+            }
+            List<Recipe> recipesFiltered = repo.GetRecipeByFilter(title, isVegetarian, isVegan, isGlutenFree, isDiaryFree);
+             return View(new IndexVM()
+                {
+                    Recipes = recipesFiltered
+                    ,IsDiaryFree = isDiaryFree
+                    ,IsGlutenFree = isGlutenFree
+                    ,IsVegan = isVegan
+                    ,IsVegetarian = isVegetarian
+                    ,Title = title
+                });
+        }
+
+        [HttpPost]
+        public IActionResult Search()
+        {  
+            var title = this.Request.Form["Title"].ToString();
+            var isVegetarian = this.Request.Form.ContainsKey("Vegetarian");
+            var isVegan = this.Request.Form.ContainsKey("Vegan");
+            var isGlutenFree = this.Request.Form.ContainsKey("GlutenFree");
+            var isDiaryFree = this.Request.Form.ContainsKey("DiaryFree");
+            return RedirectToAction("Index", "Home", new { isGlutenFree = isGlutenFree, isDiaryFree = isDiaryFree, isVegan = isVegan, isVegetarian = isVegetarian, title = title });
         }
 
         [HttpGet]
@@ -44,22 +77,16 @@ namespace Recipes.Controllers
             return PartialView("~/Views/Home/PartialViews/_CreateRecipe.cshtml", new RecipeVM(allIngredients) { });
         }
 
-
-        [HttpGet]
-        public IActionResult Search()
-        {
-            List<Recipe> recipesFiltered = repo.GetRecipeByFilter();
-            return View(recipesFiltered);
-        }
-
         [HttpPost]
-        public IActionResult Create(RecipeVM rec)
-        { 
+        public IActionResult Create(RecipeVM recipe)
+        {
+            this.Request.Form["Ingredients"].ToList().ForEach(x => recipe.Ingredients.Add(new Ingredient() { IngredientId = Int32.Parse(x) }));
+            recipe.CreatorUser = "a";
             if (!ModelState.IsValid)
             {
                 return ValidationProblem();
             }
-            repo.SaveUserCreatedRecipe(rec.ToRecipe());
+            repo.SaveUserCreatedRecipe(recipe.ToRecipe());
             return Json(new { success = true });
         }
 
@@ -67,7 +94,21 @@ namespace Recipes.Controllers
         public IActionResult Edit(int id)
         {
             Recipe rec = repo.GetRecipeById(id);
-            return PartialView("~/Views/Home/PartialViews/_EditRecipe.cshtml", rec);
+            var allIngredients = repo.GetAllIngredients(null);
+            return PartialView("~/Views/Home/PartialViews/_EditRecipe.cshtml", new RecipeVM(rec, allIngredients));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(RecipeVM recipe)
+        {
+            this.Request.Form["Ingredients"].ToList().ForEach(x => recipe.Ingredients.Add(new Ingredient() { IngredientId = Int32.Parse(x) }));
+            recipe.CreatorUser = "a";
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem();
+            }
+            repo.EditRecipe(recipe.ToRecipe());
+            return Json(new { success = true });
         }
 
         [HttpGet]
@@ -80,7 +121,19 @@ namespace Recipes.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return PartialView("~/Views/Home/PartialViews/_DeleteRecipe.cshtml", id);
+            Recipe rec = repo.GetRecipeById(id);
+            return PartialView("~/Views/Home/PartialViews/_DeleteRecipe.cshtml", new DeleteVM()
+            {
+                DB_ID = rec.DB_ID,
+                Title = rec.Title
+            });
+        }
+
+        [HttpPost]
+        public IActionResult Delete(DeleteVM deleteVM)
+        {
+            repo.DeleteRecipe(deleteVM.DB_ID);
+            return Json(new { success = true });
         }
 
 

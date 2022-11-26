@@ -6,6 +6,9 @@
 @using Recipes.ViewModels;
 @using Newtonsoft.Json;
 @model RecipeVM
+@section Scripts{
+    <script src="@Url.Content("~/js/multiselect.js")" ></script>
+}
 @Html.RenderUnobtrusiveAjaxScript()
 @Html.ValidationSummary()
 
@@ -59,28 +62,37 @@
                     @Html.LabelFor(model => model.Instructions, new { @class = "input-group-text"})
                     @Html.TextAreaFor(model => model.Instructions, new { @placeholder = "Instructions", @class = "form-control" })
                 </div>
-                
-                @* <div class="input-group mb-3">
+                 
+                <div class="input-group mb-3">
                     @Html.LabelFor(model => model.Ingredients, new { @class = "input-group-text"})
-                    @Html.Multi(model => model.Ingredients, new SelectList(Model.AllIngredients), new {  @class = "form-control" })
-                </div>*@
+                    <select multiple multiselect-search="true" title="Ingredients" class="form-control col-11" id="Ingredients" name="Ingredients">
+                        @foreach(var item in Model.AllIngredients){
+                            <option value="@item.IngredientId">@item.Name</option>
+                        }
+                    </select>
+                </div>
             </div>
             
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary button button4">Create</button>
                 <button type="button" data-dismiss="modal" class="btn btn-primary button button4">Cancel</button>
             </div>
-            
+
         </div>
     </div>
 }
 </div>
-<script>
 
+
+<script>
 
     function onSuccess(){
         $('#modal-placeholder > .modal').modal('hide');
+        location.reload();
     }
+    $( document ).ready(function() {
+        MultiselectDropdown(window.MultiselectDropdownOptions);
+        document.getElementsByClassName('multiselect-dropdown')[0].classList.add("col-10");
+    });
 
 </script>
-

@@ -26,7 +26,7 @@ namespace Recipes.DAL
 
         private void SaveRecipeRecursively(Recipe rec)
         {
-            var RecipeId = SaveRecipe(rec);
+            var RecipeId = SaveAPIRecipe(rec);
             foreach (var ai in rec.AnalyzedInstructions)
             {
                 var AnalyzedInsId = SaveAnalyzedInstruction(ai);
@@ -226,7 +226,7 @@ namespace Recipes.DAL
             }
         }
 
-        private int SaveRecipe(Recipe Recipe)
+        private int SaveAPIRecipe(Recipe Recipe)
         {
             var dbRecipe = _db.Recipes.FirstOrDefault(x => (x.Id == Recipe.Id && x.CreatorUser == Recipe.CreatorUser));
             if (dbRecipe == null)
@@ -277,14 +277,14 @@ namespace Recipes.DAL
             return recipe;
         }
 
-        public List<Recipe> GetRecipeByFilter(string? name = null, bool? vegetarian = null, bool? vegan = null, bool? glutenFree = null, bool? dairyFree = null)
+        public List<Recipe> GetRecipeByFilter(string name, bool vegetarian, bool vegan, bool glutenFree, bool dairyFree)
         {
             return _db.Recipes
-                            .Where(x => x.Vegetarian == vegetarian || vegetarian == null)
-                            .Where(x => x.Vegan == vegan || vegan == null)
-                            .Where(x => x.GlutenFree == glutenFree || glutenFree == null)
-                            .Where(x => x.DairyFree == dairyFree || dairyFree == null)
-                            .Where(x => x.Title.ToLower().Contains(name.ToLower()) || name == null)
+                            .Where(x => x.Vegetarian == vegetarian)
+                            .Where(x => x.Vegan == vegan)
+                            .Where(x => x.GlutenFree == glutenFree)
+                            .Where(x => x.DairyFree == dairyFree)
+                            .Where(x => x.Title.ToLower().Contains((name ?? "").ToLower()))
                             .ToList();
                               
         }
@@ -301,40 +301,49 @@ namespace Recipes.DAL
 
         public void SaveUserCreatedRecipe(Recipe newRecipe)
         {
-            var dbRecipe = _db.Recipes.FirstOrDefault(x => x.Id == newRecipe.Id && x.CreatorUser == newRecipe.CreatorUser);
+            newRecipe.Id = -1;
+            var recipe = _db.Recipes.Add(newRecipe);
+            _db.SaveChanges();
+            foreach (var ingredient in newRecipe.Ingredients)
+            {
+                SaveRecipeIngredient(new RecipeIngredient()
+                {
+                    RecipeId = recipe.Entity.DB_ID,
+                    IngredientId = ingredient.IngredientId
+                });
+            }
+            _db.SaveChanges();
+        }
+
+        public void EditRecipe(Recipe editedRecipe)
+        {
+            var dbRecipe = _db.Recipes.FirstOrDefault(x => x.DB_ID == editedRecipe.DB_ID);
             if (dbRecipe != null)
             {
-                var tmpId = dbRecipe.DB_ID;
-                dbRecipe = newRecipe;
-                dbRecipe.DB_ID = tmpId;
-                var existingIngredientsToRecipe = _db.RecipeIngredients.Where(x => x.RecipeId == dbRecipe.DB_ID);
-                var newRecipeIngredientIds = newRecipe.Ingredients.Select(y => y.DB_ID).ToList();
-                var toRemove = existingIngredientsToRecipe.Where(x => !newRecipeIngredientIds.Contains(x.IngredientId)).ToList();
+                dbRecipe = editedRecipe;
+                var existingIngredientsToRecipe = _db.RecipeIngredients.Where(x => x.RecipeId == editedRecipe.DB_ID).ToList();
                 /*Remove*/
-                toRemove.ForEach(x => _db.RecipeIngredients.Remove(x));
+                existingIngredientsToRecipe.ForEach(x => _db.RecipeIngredients.Remove(x));
+                _db.SaveChanges();
                 /*Add*/
-                var toAdd = existingIngredientsToRecipe.Where(x => newRecipeIngredientIds.Contains(x.IngredientId)).ToList();
-                foreach (var ingredient in toAdd)
+                var newRecipeIngredientIds = editedRecipe.Ingredients.Select(y => y.IngredientId).ToList();
+                foreach (var ingredientId in newRecipeIngredientIds)
                 { 
                     SaveRecipeIngredient(new RecipeIngredient()
                     {
                         RecipeId = dbRecipe.DB_ID,
-                        IngredientId = ingredient.IngredientId
+                        IngredientId = ingredientId
                     });
                 }
+
+                _db.SaveChanges();
             }
-            else
-            {
-                var recipeId = SaveRecipe(newRecipe);
-                foreach (var ingredient in newRecipe.Ingredients)
-                {
-                    SaveRecipeIngredient(new RecipeIngredient()
-                    {
-                        RecipeId = dbRecipe.DB_ID,
-                        IngredientId = ingredient.IngredientId
-                    });
-                }
-            }
+        }
+
+        public void DeleteRecipe(int id)
+        {
+            var dbRecipe = _db.Recipes.FirstOrDefault(x => x.DB_ID == id);
+            _db.Recipes.Remove(dbRecipe);
             _db.SaveChanges();
         }
     }

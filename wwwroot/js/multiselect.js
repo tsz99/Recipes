@@ -2,85 +2,85 @@
 style.setAttribute("id", "multiselect_dropdown_styles");
 style.innerHTML = `
 .multiselect-dropdown{
-  display: inline-block;
-  padding: 2px 5px 0px 5px;
-  border-radius: 4px;
-  border: solid 1px #ced4da;
-  background-color: white;
-  position: relative;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right .75rem center;
-  background-size: 16px 12px;
+  display: inline-block !important;
+  padding: 2px 5px 0px 5px !important;
+  border-radius: 4px !important;
+  border: solid 1px #ced4da !important;
+  background-color: white !important;
+  position: relative !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right .75rem center !important;
+  background-size: 16px 12px !important;
 }
 .multiselect-dropdown span.optext, .multiselect-dropdown span.placeholder{
-  margin-right:0.5em; 
-  margin-bottom:2px;
-  padding:1px 0; 
-  border-radius: 4px; 
-  display:inline-block;
+  margin-right:0.5em !important; 
+  margin-bottom:2px !important;
+  padding:1px 0 !important; 
+  border-radius: 4px !important; 
+  display:inline-block !important;
 }
 .multiselect-dropdown span.optext{
-  background-color:lightgray;
-  padding:1px 0.75em; 
+  background-color:lightgray !important;
+  padding:1px 0.75em !important; 
 }
 .multiselect-dropdown span.optext .optdel {
-  float: right;
-  margin: 0 -6px 1px 5px;
-  font-size: 0.7em;
-  margin-top: 2px;
-  cursor: pointer;
-  color: #666;
+  float: right !important;
+  margin: 0 -6px 1px 5px !important;
+  font-size: 0.7em !important;
+  margin-top: 2px !important;
+  cursor: pointer !important;
+  color: #666 !important;
 }
-.multiselect-dropdown span.optext .optdel:hover { color: #c66;}
+.multiselect-dropdown span.optext .optdel:hover { color: #c66 !important;}
 .multiselect-dropdown span.placeholder{
-  color:#ced4da;
+  color:#ced4da !important;
 }
 .multiselect-dropdown-list-wrapper{
-  box-shadow: gray 0 3px 8px;
-  z-index: 100;
-  padding:2px;
-  border-radius: 4px;
-  border: solid 1px #ced4da;
-  display: none;
-  margin: -1px;
-  position: absolute;
-  top:0;
-  left: 0;
-  right: 0;
-  background: white;
+  box-shadow: gray 0 3px 8px !important;
+  z-index: 100 !important;
+  padding:2px !important;
+  border-radius: 4px !important;
+  border: solid 1px #ced4da !important;
+  display: none !important;
+  margin: -1px !important;
+  position: absolute !important;
+  top:0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  background: white !important;
 }
 .multiselect-dropdown-list-wrapper .multiselect-dropdown-search{
-  margin-bottom:5px;
+  margin-bottom:5px !important;
 }
 .multiselect-dropdown-list{
-  padding:2px;
-  height: 15rem;
-  overflow-y:auto;
-  overflow-x: hidden;
+  padding:2px !important;
+  height: 15rem !important;
+  overflow-y:auto !important;
+  overflow-x: hidden !important;
 }
 .multiselect-dropdown-list::-webkit-scrollbar {
-  width: 6px;
+  width: 6px !important;
 }
 .multiselect-dropdown-list::-webkit-scrollbar-thumb {
-  background-color: #bec4ca;
-  border-radius:3px;
+  background-color: #bec4ca !important;
+  border-radius:3px !important;
 }
 .multiselect-dropdown-list div{
-  padding: 5px;
+  padding: 5px !important;
 }
 .multiselect-dropdown-list input{
-  height: 1.15em;
-  width: 1.15em;
-  margin-right: 0.35em;  
+  height: 1.15em !important;
+  width: 1.15em !important;
+  margin-right: 0.35em !important;  
 }
 .multiselect-dropdown-list div.checked{
 }
 .multiselect-dropdown-list div:hover{
-  background-color: #ced4da;
+  background-color: #ced4da !important;
 }
-.multiselect-dropdown span.maxselected {width:100%;}
-.multiselect-dropdown-all-selector {border-bottom:solid 1px #999;}
+.multiselect-dropdown span.maxselected {width:100% !important;}
+.multiselect-dropdown-all-selector {border-bottom:solid 1px #999 !important;}
 `;
 document.head.appendChild(style);
 
@@ -113,7 +113,7 @@ function MultiselectDropdown(options) {
 
     document.querySelectorAll("select[multiple]").forEach((el, k) => {
 
-        var div = newEl('div', { class: 'multiselect-dropdown', style: { padding: config.style?.padding ?? '' } });
+        var div = newEl('div', { class: 'multiselect-dropdown', style: { width: config.style?.width ?? el.clientWidth + 'px', padding: config.style?.padding ?? '' } });
         el.style.display = 'none';
         el.parentNode.insertBefore(div, el.nextSibling);
         var listWrap = newEl('div', { class: 'multiselect-dropdown-list-wrapper' });

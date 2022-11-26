@@ -1,8 +1,10 @@
-﻿@model IEnumerable<Recipes.Data.Recipe>
+﻿@model IndexVM
 
 @{
     ViewData["Title"] = "Home Page";
 }
+@using Recipes.ViewModels;
+@Html.RenderUnobtrusiveAjaxScript()
 
 <div class="container">
     <div id="modal-placeholder"></div>
@@ -10,44 +12,48 @@
     <div class="row">
         <section class="col-2">
             <h2>Search Recipes</h2>
-
+@using (Html.AjaxBeginForm("Search", "Home", new AjaxOptions{ 
+    OnSuccess = "onSuccess",
+    HttpMethod = "Post"
+}))
+{
             <div class="form-floating mb-3">
-                <input class="form-control" id="floatingInput" placeholder="Boiled Egg">
+                <input class="form-control" id="floatingInput" name="Title" value="@Model.Title" placeholder="Boiled Egg">
                 <label for="floatingInput">Title</label>
             </div>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" value="" id="checkVegetarian">
+                <input class="form-check-input" type="checkbox" value="" name="Vegetarian" checked="@Model.IsVegetarian" id="checkVegetarian">
                 <label class="form-check-label" for="checkVegetarian">
                     Vegetarian
                 </label>
             </div>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" value="" id="checkVegan">
+                <input class="form-check-input" type="checkbox" value="" name="Vegan" checked="@Model.IsVegan" id="checkVegan">
                 <label class="form-check-label" for="checkVegan">
                     Vegan
                 </label>
             </div>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" value="" id="checkGlutenFree">
+                <input class="form-check-input" type="checkbox" value="" name="GlutenFree" checked="@Model.IsGlutenFree" id="checkGlutenFree">
                 <label class="form-check-label" for="checkGlutenFree">
                     GlutenFree
                 </label>
             </div>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" value="" id="checkDiaryFree">
+                <input class="form-check-input" type="checkbox" value="" name="DiaryFree" checked="@Model.IsDiaryFree" id="checkDiaryFree">
                 <label class="form-check-label" for="checkDiaryFree">
                     DiaryFree
                 </label>
             </div>
 
-            <button id="callAPIButton" class="btn btn-primary m-3">
+            <button type="submit" id="callAPIButton" class="btn btn-primary m-3">
                 Search
             </button>
-
+}
         </section>
         <section class="col-10">
             <h1>Recipes</h1>
@@ -57,7 +63,7 @@
             </p>
 
             <div class="row row-cols-1 row-cols-lg-2 g-3">
-                @foreach (var item in Model)
+                @foreach (var item in Model.Recipes)
                 {
                     <div class="col">
                         <div class="card shadow-sm">
@@ -90,12 +96,10 @@
     </div>
 </div>
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 
 </script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
-
 <script>
     $("#createNewButton").click(function () {
         debugger;
@@ -144,12 +148,10 @@
         $("#modal-placeholder").modal('hide');
     });
 
-    function closeModal(e){
-        debugger;
-        alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
+
+    function onSuccess(){
+        location.reload();
     }
-    function OnSuccess(data) {
-        debugger;
-        alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
-     }
+
+
 </script>

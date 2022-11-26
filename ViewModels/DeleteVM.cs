@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace Recipes.ViewModels
 {
-    public class InstructionVM
+    public class DeleteVM
     {
+        public int DB_ID { get; set; }
+        public string Title { get; set; }
     }
 }
