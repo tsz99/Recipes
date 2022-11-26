@@ -1,4 +1,4 @@
-# Recept gyűjtemény
+# Követelményspecifikáció - Receptgyűjtemény
 
 ## Feladatkiírás
 
@@ -49,3 +49,82 @@ Az alkalmazás megvalósításához három rétegű architektúrát fogunk haszn
 - Receptek szűrése/keresése a recept metaadatai alapján: A felhasználónak lehetősége van a felületen különböző recept tulajdonságok alapján szűkíteni a megjelenített recepteket, így a sokkal gyorsabban eljuthat az általa keresett recepthez vagy recepttípushoz.
 
 - Tetszőleges recept letöltése .txt formátumban: A felhasználónak egy recept kiválasztása után lehetősége van a recepthez tartozó metainformációkat/adatokat .txt formában letölteni, annak érdekében, hogy internetkapcsolat nélkül is a letöltött recepteket meg tudja nézni a saját számítógépén.
+
+# Rendszerterv - ReciPerfect
+
+ReciPerfect - Webes receptkezelő alkalmazás fejlesztése a Szoftverarchitektúrák tárgy házi feladatához
+
+## A rendszer célja, funkciói és környezete
+
+### Feladatkiírás
+
+A hallgatók feladata egy olyan webes vagy mobil alkalmazás elkészítése, amely receptek keresését teszi lehetővé nagy recept katalógusból, több szempont szerint. Az alkalmazás adatbázisa lehet saját scrape-elt adatra épülő, vagy használhatnak létező recept API-kat is.
+
+A feladat részletes specifikációja a követelményspecifikáció fejezetben olvasható.
+
+### A rendszer által biztosítandó tipikus funkciók
+
+Vázlatosan az alábbi funkciók biztosítását várjuk el a rendszertől. (A funkciók részletes
+definíciója szintén a követelményspecifikáció dokumentumban olvasható.)
+
+- Adminisztáció
+	- Regisztáció
+    - Bejelentkezés
+- Receptkezelés
+	-  Recept létrehozás és elmentés az adatbázisba
+    -  Recept módósítása
+    -  Recept törlése
+    -  Receptek szűrése/keresése a recept metaadatai alapján
+    -  Tetszőleges recept letöltése .txt formátumban
+
+
+### A program környezete
+
+Az alkalmazásunkat .NET Core 3.1 platformon készítettük el annak érdekében, hogy több operációs rendszeren (Windows, Linux) is futtatható legyen. Az alkalmazás adatait egy SQL Server adatbázis tárolja, ezzel lehetővé téve azt, hogy a publikus API által visszaadott adatok perzisztensen tárolódjanak és ne kelljen minden adatlekérő felhasználói interakció során a távoli végponthoz forduljon az alkalmazás. Az adatok adatbázisban való tárolása továbbá biztosítja azt is, hogy ha a használt végpont valamilyen okból kifolyólag nem elérhető, az alkalmazás akkor is üzemképes marad. Az alkalmazás a működéséhez IIS express webszervert használ.
+
+## Megvalósítás
+
+Az alkalmazást a feladatkiírásnak megfelelően egy többrétegű alkalmazásként készítettük el.
+
+A megvalósított receptkezelő alkalmazásunkat ReciPerfect névre kereszteltük, amely a Recipe és Perfect szavak trükkös összetételéből származik. A név kiválóan jellemzi a szoftverünket, hiszen az recepteket kezel, illetve a fejlesztés alatt mindig törekedtünk a tökéletességre.
+
+A fejezetben áttekintést adunk a program architektúrájáról, bemutatjuk az egyes komponensek feladatait és felelősségeit, továbbá részletesen ismertetjük a használt adatmodellt és a grafikus felhasználói felület felépítését.
+
+### Architektúra
+
+#### Adatbázis réteg
+
+#### Adatdefiníciók
+
+#### Adathozzáférési réteg (Data Access Layer)
+
+#### Üzleti logikai réteg (Business Logic Layer)
+
+#### Grafikus felhasználói felület
+
+**Célja:** A felhasználók számára egyszerű, könnyen átlátható felületet nyújtani, az összes
+funkciót elérhetővé tenni.
+
+A ReciPerfect felhasználói felülete leginkább a modern webshopok jellegzetességeit hordozza. A weboldal betöltődése után egy jól megszokott Register/Login felület fogad. Bejelentkezést követően egy receptekből álló album jelenik meg. 
+
+Az oldalak közti bonyolult navigáció okozta kellemetlenség elkerülése érdekében a ReciPerfect modális ablakokat használ a különböző tartalmak megjelenítésére. Így, az album elemeire kattintva egy modális ablak ugrik fel, amelyen részletesebb leírást kapunk az adott receptről.
+ Az albumot alkotó kártyákon több elem található: egy színes kép az adott recept lehetséges eredményéről, a recept neve, egy rövid leírás, Edit és Delete gomb, a szükséges elkészítési idő, végül a recept forrása zárja a sort. Az Edit gomb megnyomásával egy modális ablak jelenik meg, amelyen lehetőségünk van szerkeszteni az adott receptet. A Delete gomb megnyomása után pedig egy olyan modális ablak tűnik fel, amely egy megerősítést kér tőlünk a törlést illetően.
+
+Az oldal bal oldalán találhatóak a receptek keresésést illetve szűrését szolgáló elemek. Itt lehetőségünk van rákeresni a receptre a neve alapján, vagy kiszűrhetjük a vegetariánus, vegán, gluténmentes és laktózmentes recepteket.
+   
+### Adat- és adatbázisterv
+
+### GUI-terv
+
+
+
+## Telepítési leírás
+
+## A program készítése során felhasznált eszközök
+
+## Összefoglalás
+
+## Továbbfejlesztési lehetőségek
+
+## Hivatkozások
+
