@@ -170,11 +170,31 @@ A program futtatásához szükségünk van egy telepített és futó Micorsoft S
 - Visual Studio 2019 - https://learn.microsoft.com/en-us/visualstudio/releases/2019/release-notes
 - SQL Server Management Studio (SSMS) 19 - https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms-19?view=sql-server-ver16
 - Microsoft Edge
+- RestSharp - https://www.nuget.org/packages/RestSharp
+- Newtonsoft Json - https://www.nuget.org/packages/Newtonsoft.Json
+
 
 ## Összefoglalás
 
+Munkánk során megterveztük, implementáltuk illetve dokumentáltuk a ReciPerfect
+nevű receptkezelő rendszert. Az elkészített alkalmazás segítségével saját illetve más forrásból származó étel recepteket kezelhetünk.
+
+A megvalósított alkalmazás 3 rétegű architektúrát használ: adatbázis réteg, üzleti logikai
+réteg és felhasználói felület. Az alkalmazás ASP.NET Core platformon készült. A receptek perzisztens tárolásáért egy helyi MSSQL adatbázis felelős. A felhasználói felület ASP.NET layout oldalakból áll, amelyek a Bootstrap alkalmazásával igényes megjelenést biztosítanak a ReciPerfect alkalmazásunknak.
+
+Munkánk során részletes terveket készítettünk – részük jelen dokumentum tartalmát
+képezik – és jelentős mennyiségű implementációs munkát is végeztünk. Ennek eredményeképpen egy jól működő és megbízható alkalmazást készítettünk el, amely az elvárt
+alapvető felhasználói igényeknek megfelel, feladatát képes ellátni.
+
 
 ## Továbbfejlesztési lehetőségek
+
+A ReciPerfect alkalmazásunkat alapvetően rugalmasra és könnyen bővíthetőre terveztük, így különösebb refactorálás szükségessége nélkül egészíthető ki újabb funkciókkal. Ilyen továbbfejlesztési lehetőség, illetve hasznos funkció lehet:
+
+- saját kép feltöltése a saját recepthez
+- szűrési lehetőség a saját receptekre
+- további recept metaadatok megjelenítése a felhasználói felületen.
+- szűrési feltételek további metaadatokra
 
 ## Hivatkozások
 
@@ -185,5 +205,6 @@ A program futtatásához szükségünk van egy telepített és futó Micorsoft S
 - RestSharp - https://www.nuget.org/packages/RestSharp
 - Newtonsoft Json - https://www.nuget.org/packages/Newtonsoft.Json
 - Microsoft.jQuery.Unobtrusive.Ajax - https://www.nuget.org/packages/Microsoft.jQuery.Unobtrusive.Ajax
+- Spoonacular API - https://spoonacular.com/food-api
 
 
