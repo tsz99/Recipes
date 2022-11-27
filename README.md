@@ -52,7 +52,7 @@ Az alkalmazás megvalósításához három rétegű architektúrát fogunk haszn
 
 # Rendszerterv - ReciPerfect
 
-ReciPerfect - Webes receptkezelő alkalmazás fejlesztése a Szoftverarchitektúrák tárgy házi feladatához
+ReciPerfect - Webes receptkezelő alkalmazás fejlesztése a Szoftverarchitektúrák tárgy házi feladatához.
 
 ## A rendszer célja, funkciói és környezete
 
@@ -84,7 +84,7 @@ Az alkalmazásunkat .NET Core 3.1 platformon készítettük el annak érdekében
 
 ## Megvalósítás
 
-Az alkalmazást a feladatkiírásnak megfelelően egy többrétegű alkalmazásként készítettük el.
+Az alkalmazást a feladatkiírásnak megfelelően egy többrétegű alkalmazásként készítettük el. A ReciPerfect ASP.NET Core keretrendszerre épül, így követve annak irányelveit, működési mechanizmusát.
 
 A megvalósított receptkezelő alkalmazásunkat ReciPerfect névre kereszteltük, amely a Recipe és Perfect szavak trükkös összetételéből származik. A név kiválóan jellemzi a szoftverünket, hiszen az recepteket kezel, illetve a fejlesztés alatt mindig törekedtünk a tökéletességre.
 
@@ -92,18 +92,36 @@ A fejezetben áttekintést adunk a program architektúrájáról, bemutatjuk az 
 
 ### Architektúra
 
-#### Adatbázis réteg
+Az alkalmazásunk, a már klasszikusnak tekinthető, N-rétegű architektúrát használ, a ReciPrefect 4 réteget definiál:
 
-#### Adatdefiníciók
+- adatbázisréteg (Database Layer, DB)
+- adatelérési réteg (Data Access Layer, DAL)
+- üzleti logika rétege (Business Logic Layer, BLL)
+- felhasználói felület (Graphical User Interface, GUI)
+
+A 4 felsorolt rétegen kívül, a felhasználókezeléshez egy teljesen elkülönülő beépített ASP.NET Core Identity modult használunk. Mivel ezt a modult készen kaptuk a keretrendszerrel, a belső működését jelen dokumentum keretei között nem tárgyaljuk.
+
+A fejezet további részében a felsorolt 4 réteg feladatkörét, határait és működését fogjuk ismertetni.
+
+#### Adatbázis réteg (Database Layer)
+**Célja:** A receptek és metaadataik perzisztens tárolása.
+
+Az alkalmazásunk adatbázisát egy MSSQL adatbázis képezi. Az adatbázis Entity Framework Core (EF Core) Code First megközelítéssel készült. Az adatbázis séma az EF Core konvenciók alapján generálódik a megadott adatmodell osztályaink alapján.
+
+Az adatbázis réteg adatbázisának felépítése az Adat- és adatbázisterv fejezetben van kifejtve részletesen.
 
 #### Adathozzáférési réteg (Data Access Layer)
 
+
+
 #### Üzleti logikai réteg (Business Logic Layer)
 
-#### Grafikus felhasználói felület
+#### Grafikus felhasználói felület (Graphical User Interface)
 
 **Célja:** A felhasználók számára egyszerű, könnyen átlátható felületet nyújtani, az összes
 funkciót elérhetővé tenni.
+
+Az oldalak egységes kinézetét az ASP.NET layout oldalak segítségével biztosítja. Az oldalak megjelenítésének testreszabására a Bootstrap könyvtárat használtuk.
 
 A ReciPerfect felhasználói felülete leginkább a modern webshopok jellegzetességeit hordozza. A weboldal betöltődése után egy jól megszokott Register/Login felület fogad. Bejelentkezést követően egy receptekből álló album jelenik meg. 
 
@@ -113,9 +131,6 @@ Az oldalak közti bonyolult navigáció okozta kellemetlenség elkerülése érd
 Az oldal bal oldalán találhatóak a receptek keresésést illetve szűrését szolgáló elemek. Itt lehetőségünk van rákeresni a receptre a neve alapján, vagy kiszűrhetjük a vegetariánus, vegán, gluténmentes és laktózmentes recepteket.
    
 ### Adat- és adatbázisterv
-
-### GUI-terv
-
 
 
 ## Telepítési leírás
@@ -127,4 +142,6 @@ Az oldal bal oldalán találhatóak a receptek keresésést illetve szűrését 
 ## Továbbfejlesztési lehetőségek
 
 ## Hivatkozások
+
+ASP.NET Core, Bootstrap, MSSQL
 
