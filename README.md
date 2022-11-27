@@ -172,5 +172,12 @@ A program futtatásához szükségünk van egy telepített és futó Micorsoft S
 
 ## Hivatkozások
 
-ASP.NET Core, Bootstrap, MSSQL, API
+- ASP.NET Core - https://dotnet.microsoft.com/en-us/learn/aspnet/what-is-aspnet-core
+- Bootstrap - https://getbootstrap.com/
+- Microsoft SQL Server - https://en.wikipedia.org/wiki/Microsoft_SQL_Server
+- Microsoft Entity Framework Core - https://learn.microsoft.com/en-us/ef/core/
+- RestSharp - https://www.nuget.org/packages/RestSharp
+- Newtonsoft Json - https://www.nuget.org/packages/Newtonsoft.Json
+- Microsoft.jQuery.Unobtrusive.Ajax - https://www.nuget.org/packages/Microsoft.jQuery.Unobtrusive.Ajax
+
 
