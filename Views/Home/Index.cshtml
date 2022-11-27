@@ -1,11 +1,16 @@
 ﻿@model IndexVM
-
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "Home Page";
 }
 @using Recipes.ViewModels;
 @Html.RenderUnobtrusiveAjaxScript()
 
+@if(User.Identity.IsAuthenticated)
+{
 <div class="container">
     <div id="modal-placeholder"></div>
 
@@ -73,15 +78,16 @@
                                 <div class="card-text ">@Html.Raw(@item.Summary)</div>
                             </div>
                             <div class="card-body">
-
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
+                                    @if(User.Identity.Name == item.CreatorUser){
                                         <button type="button" id="editButton_@item.DB_ID" class="btn btn-sm btn-outline-secondary editButton">Edit</button>
-                                        <button type="button" id="deleteButton_@item.DB_ID" class="btn btn-sm btn-outline-secondary deleteButton">Delete</button>
+                                        <button type="button" id="deleteButton_@item.DB_ID" class="btn btn-sm btn-outline-secondary deleteButton">Delete</button>     
+                                    }
+                                        <button type="button" id="downloadButton_@item.DB_ID" class="btn btn-sm btn-outline-secondary downloadButton">Download</button>
                                     </div>
-                                    <small class="text-muted">@item.ReadyInMinutes min</small>
-                                </div>
-
+                                        <small class="text-muted">@item.ReadyInMinutes min</small>
+                                    </div>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted text-center">@item.SourceName</small>
@@ -95,7 +101,14 @@
         </section>
     </div>
 </div>
-
+}
+else
+{
+    <div class="container">
+        <h1 class="display-4">Welcome</h1>
+        <p>To use the application please <a asp-area="Identity" asp-page="/Account/Login">Login</a> or if you do not have an account <a asp-area="Identity" asp-page="/Account/Register">Register</a>.</p>
+    </div>
+}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 
 </script>
@@ -132,7 +145,7 @@
         });
     });
 
-        $(".deleteButton").click(function (e) {
+    $(".deleteButton").click(function (e) {
         debugger;
         let idVal = e.currentTarget.id.split('_')[1];
         let url = new URL(location.origin + '@Url.Action("Delete", "Home")');
@@ -148,6 +161,20 @@
         $("#modal-placeholder").modal('hide');
     });
 
+    $(".downloadButton").click(function (e) {
+        debugger;
+        let idVal = e.currentTarget.id.split('_')[1];
+
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        let url = new URL(location.origin + '@Url.Action("Download", "Home")');
+        url.searchParams.append('id', idVal);
+        a.href = url;
+        a.download = 'Recipe.txt';
+        a.click();
+        document.body.removeChild(a);
+    });
 
     function onSuccess(){
         location.reload();

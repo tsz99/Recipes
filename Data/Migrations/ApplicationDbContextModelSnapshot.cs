@@ -276,53 +276,6 @@ namespace Recipes.Data.Migrations
                     b.ToTable("Equipments");
                 });
 
-            modelBuilder.Entity("Recipes.Data.ExtendedIngredient", b =>
-                {
-                    b.Property<int>("DB_ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Aisle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Consistency")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameClean")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Original")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OriginalName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RecipeDB_ID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DB_ID");
-
-                    b.HasIndex("RecipeDB_ID");
-
-                    b.ToTable("ExtendedIngredients");
-                });
-
             modelBuilder.Entity("Recipes.Data.Ingredient", b =>
                 {
                     b.Property<int>("DB_ID")
@@ -462,19 +415,6 @@ namespace Recipes.Data.Migrations
                     b.ToTable("RecipeAnalyzedInstructions");
                 });
 
-            modelBuilder.Entity("Recipes.Data.RecipeExtendedIngredient", b =>
-                {
-                    b.Property<int>("ExtendedIngredientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ExtendedIngredientId", "RecipeId");
-
-                    b.ToTable("RecipeExtendedIngredients");
-                });
-
             modelBuilder.Entity("Recipes.Data.RecipeIngredient", b =>
                 {
                     b.Property<int>("RecipeId")
@@ -587,13 +527,6 @@ namespace Recipes.Data.Migrations
                 {
                     b.HasOne("Recipes.Data.Recipe", null)
                         .WithMany("AnalyzedInstructions")
-                        .HasForeignKey("RecipeDB_ID");
-                });
-
-            modelBuilder.Entity("Recipes.Data.ExtendedIngredient", b =>
-                {
-                    b.HasOne("Recipes.Data.Recipe", null)
-                        .WithMany("ExtendedIngredients")
                         .HasForeignKey("RecipeDB_ID");
                 });
 #pragma warning restore 612, 618

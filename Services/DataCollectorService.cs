@@ -13,12 +13,12 @@ namespace Recipes.Services
     public class DataCollectorService : IHostedService, IDisposable
     {
         private readonly ILogger<DataCollectorService> _logger;
-        private RecipesRepository repo;
+        private FoodAPIService api;
         private Timer _timer;
         public DataCollectorService(ILogger<DataCollectorService> logger, IServiceScopeFactory scopeFactory)
         {
             _logger = logger;
-            this.repo = scopeFactory.CreateScope().ServiceProvider.GetRequiredService<RecipesRepository>();
+            this.api = scopeFactory.CreateScope().ServiceProvider.GetRequiredService<FoodAPIService>();
         }
 
         public void Dispose()
@@ -31,7 +31,7 @@ namespace Recipes.Services
             _logger.LogInformation("Timed Background Service is starting.");
 
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(15));
+                TimeSpan.FromSeconds(3600000));
 
             return Task.CompletedTask;
         }
@@ -47,8 +47,7 @@ namespace Recipes.Services
 
         private void DoWork(object o)
         {
-            //Todo logic here, API call and stuff
-            Console.WriteLine("Work");
+            api.GetRecipes();
         }
     }
 }

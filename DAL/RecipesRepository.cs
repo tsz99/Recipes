@@ -69,15 +69,6 @@ namespace Recipes.DAL
                     }
                 }
             }
-            foreach (var exIng in rec.ExtendedIngredients)
-            {
-                var exIngId = SaveExtendedIngredient(exIng);
-                SaveRecipeExtendedIngredient(new RecipeExtendedIngredient
-                {
-                    ExtendedIngredientId = exIngId,
-                    RecipeId = RecipeId
-                });
-            }
             _db.SaveChanges();
         }
 
@@ -100,29 +91,7 @@ namespace Recipes.DAL
                 _db.SaveChanges();
                 return Ingredient.IngredientId;
             }
-            else
-            {
-                dbIngredient = Ingredient;
-                _db.SaveChanges();
-            }
             return dbIngredient.IngredientId;
-        }
-
-        private int SaveExtendedIngredient(ExtendedIngredient ExtendedIngredient)
-        {
-            var dbExtendedIngredient = _db.ExtendedIngredients.FirstOrDefault(x => (x.Id == ExtendedIngredient.Id));
-            if (dbExtendedIngredient == null)
-            {
-                _db.ExtendedIngredients.Add(ExtendedIngredient);
-                _db.SaveChanges();
-                return ExtendedIngredient.Id;
-            }
-            else
-            {
-                dbExtendedIngredient = ExtendedIngredient;
-                _db.SaveChanges();
-            }
-            return dbExtendedIngredient.Id;
         }
 
         private int SaveEquipment(Equipment Equipment)
@@ -133,11 +102,6 @@ namespace Recipes.DAL
                 _db.Equipments.Add(Equipment);
                 _db.SaveChanges();
                 return Equipment.Id;
-            }
-            else
-            {
-                dbEquipment = Equipment;
-                _db.SaveChanges();
             }
             return dbEquipment.Id;
         }
@@ -150,11 +114,6 @@ namespace Recipes.DAL
                 _db.AnalyzedInstructions.Add(AnalyzedInstruction);
                 _db.SaveChanges();
                 return AnalyzedInstruction.DB_ID;
-            }
-            else
-            {
-                dbAnalyzedInstruction = AnalyzedInstruction;
-                _db.SaveChanges();
             }
             return dbAnalyzedInstruction.DB_ID;
         }
@@ -198,22 +157,7 @@ namespace Recipes.DAL
                 _db.SaveChanges();
                 return step.StepId;
             }
-            else
-            {
-                dbStep = step;
-                _db.SaveChanges();
-            }
             return dbStep.StepId;
-        }
-
-        private void SaveRecipeExtendedIngredient(RecipeExtendedIngredient RecipeExtendedIngredient)
-        {
-            var dbRecipeExtendedIngredient = _db.RecipeExtendedIngredients.FirstOrDefault(x => (x.ExtendedIngredientId == RecipeExtendedIngredient.ExtendedIngredientId && x.RecipeId == RecipeExtendedIngredient.RecipeId));
-            if (dbRecipeExtendedIngredient == null)
-            {
-                _db.RecipeExtendedIngredients.Add(RecipeExtendedIngredient);
-                _db.SaveChanges();
-            }
         }
 
         private void SaveRecipeAnalyzedInstruction(RecipeAnalyzedInstruction RecipeAnalyzedInstruction)
@@ -234,11 +178,6 @@ namespace Recipes.DAL
                 _db.Recipes.Add(Recipe);
                 _db.SaveChanges();
                 return Recipe.DB_ID;
-            }
-            else
-            {
-                dbRecipe = Recipe;
-                _db.SaveChanges();
             }
             return dbRecipe.DB_ID;
         }
@@ -268,12 +207,6 @@ namespace Recipes.DAL
             var ingredients = _db.Ingredients.Where(x => ingredientIds.Contains(x.IngredientId)).ToList();
             recipe.Ingredients = ingredients;
 
-            var extendedIngredientIds = _db.RecipeExtendedIngredients.Where(x => x.RecipeId == recipe.DB_ID)
-                                                                     .Select(y => y.ExtendedIngredientId)
-                                                                     .ToList();
-            var extendedIngredients = _db.ExtendedIngredients.Where(x => extendedIngredientIds.Contains(x.DB_ID)).ToList();
-            recipe.ExtendedIngredients = extendedIngredients;
-
             return recipe;
         }
 
@@ -284,7 +217,7 @@ namespace Recipes.DAL
                             .Where(x => x.Vegan == vegan)
                             .Where(x => x.GlutenFree == glutenFree)
                             .Where(x => x.DairyFree == dairyFree)
-                            .Where(x => x.Title.ToLower().Contains((name ?? "").ToLower()))
+                            .Where(x => x.Title.ToLower().Contains(name.ToLower()))
                             .ToList();
                               
         }
@@ -317,31 +250,16 @@ namespace Recipes.DAL
 
         public void EditRecipe(Recipe editedRecipe)
         {
-            var dbRecipe = _db.Recipes.FirstOrDefault(x => x.DB_ID == editedRecipe.DB_ID);
-            if (dbRecipe != null)
-            {
-                dbRecipe = editedRecipe;
-                var existingIngredientsToRecipe = _db.RecipeIngredients.Where(x => x.RecipeId == editedRecipe.DB_ID).ToList();
-                /*Remove*/
-                existingIngredientsToRecipe.ForEach(x => _db.RecipeIngredients.Remove(x));
-                _db.SaveChanges();
-                /*Add*/
-                var newRecipeIngredientIds = editedRecipe.Ingredients.Select(y => y.IngredientId).ToList();
-                foreach (var ingredientId in newRecipeIngredientIds)
-                { 
-                    SaveRecipeIngredient(new RecipeIngredient()
-                    {
-                        RecipeId = dbRecipe.DB_ID,
-                        IngredientId = ingredientId
-                    });
-                }
-
-                _db.SaveChanges();
-            }
+            DeleteRecipe(editedRecipe.DB_ID);
+            editedRecipe.DB_ID = 0;
+            SaveUserCreatedRecipe(editedRecipe);
         }
 
         public void DeleteRecipe(int id)
         {
+            var existingIngredientsToRecipe = _db.RecipeIngredients.Where(x => x.RecipeId == id).ToList();
+            /*Remove*/
+            existingIngredientsToRecipe.ForEach(x => _db.RecipeIngredients.Remove(x));
             var dbRecipe = _db.Recipes.FirstOrDefault(x => x.DB_ID == id);
             _db.Recipes.Remove(dbRecipe);
             _db.SaveChanges();

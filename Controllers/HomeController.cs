@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using Recipes.DAL;
 using Recipes.Data;
 using Recipes.Models;
@@ -8,27 +9,19 @@ using Recipes.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Recipes.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private FoodAPIService api;
         private RecipesRepository repo;
-        private List<Recipe> filteredRecipes;
-        public HomeController(ILogger<HomeController> logger, FoodAPIService service, RecipesRepository _repo)
+        public HomeController(RecipesRepository _repo)
         {
-            _logger = logger;
-            api = service;
             repo = _repo;
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [HttpGet]
@@ -81,10 +74,10 @@ namespace Recipes.Controllers
         public IActionResult Create(RecipeVM recipe)
         {
             this.Request.Form["Ingredients"].ToList().ForEach(x => recipe.Ingredients.Add(new Ingredient() { IngredientId = Int32.Parse(x) }));
-            recipe.CreatorUser = "a";
+            recipe.CreatorUser = User.Identity.Name;
             if (!ModelState.IsValid)
             {
-                return ValidationProblem();
+                return ValidationProblem(ModelState);
             }
             repo.SaveUserCreatedRecipe(recipe.ToRecipe());
             return Json(new { success = true });
@@ -102,10 +95,9 @@ namespace Recipes.Controllers
         public IActionResult Edit(RecipeVM recipe)
         {
             this.Request.Form["Ingredients"].ToList().ForEach(x => recipe.Ingredients.Add(new Ingredient() { IngredientId = Int32.Parse(x) }));
-            recipe.CreatorUser = "a";
             if (!ModelState.IsValid)
             {
-                return ValidationProblem();
+                return ValidationProblem(ModelState);
             }
             repo.EditRecipe(recipe.ToRecipe());
             return Json(new { success = true });
@@ -136,6 +128,44 @@ namespace Recipes.Controllers
             return Json(new { success = true });
         }
 
+        [HttpGet]
+        public FileResult Download(int id)
+        {
+            Recipe rec = repo.GetRecipeById(id);
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine(rec.Title);
+
+            builder.AppendLine("Summary");
+            builder.AppendLine(rec.Summary);
+
+            string glutenFreeText = rec.GlutenFree == true ? "yes" : "no";
+            builder.AppendLine($"Is gluten free: {glutenFreeText}");
+
+            string vegetarianText = rec.Vegetarian == true ? "yes" : "no";
+            builder.AppendLine($"Is vegetarian: {vegetarianText}");
+
+            string veganText = rec.Vegan == true ? "yes" : "no";
+            builder.AppendLine($"Is vegan: {veganText}");
+
+            string dairyFreeText = rec.DairyFree == true ? "yes" : "no";
+            builder.AppendLine($"Is dairy free: {dairyFreeText}");
+
+            builder.AppendLine("Instructions");
+            builder.AppendLine(rec.Instructions);
+
+            builder.AppendLine("Ingredients");
+            foreach (var item in rec.Ingredients)
+            {
+                builder.AppendLine(item.Name);
+            }
+
+            var stream = new MemoryStream(Encoding.ASCII.GetBytes(builder.ToString()));
+            return new FileStreamResult(stream, new MediaTypeHeaderValue("text/plain"))
+            {
+                FileDownloadName = $"{rec.Title}.txt"
+            };
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

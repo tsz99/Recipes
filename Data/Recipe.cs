@@ -71,9 +71,6 @@ namespace Recipes.Data
         [JsonProperty("pricePerServing")]
         public double PricePerServing { get; set; }
 
-        [JsonProperty("extendedIngredients")]
-        public List<ExtendedIngredient> ExtendedIngredients { get; set; }
-
         [JsonProperty("id")]
         public int Id { get; set; }
 

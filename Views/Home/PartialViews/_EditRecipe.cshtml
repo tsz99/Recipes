@@ -30,13 +30,13 @@
 
                 <div class="input-group input-group-lg mb-3">
                     @Html.LabelFor(model => model.Title, new { @class = "input-group-text"})
-                    @Html.TextBoxFor(model => model.Title, new { @placeholder = "Title Name", @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Title, new { @placeholder = "Title Name", @class = "form-control", @required = true })
                 </div>
 
 
                 <div class="input-group mb-3">
                     @Html.LabelFor(model => model.Summary, new { @class = "input-group-text"})
-                    @Html.TextAreaFor(model => model.Summary, new { @placeholder = "Place of summary", @class = "form-control" })
+                    @Html.TextAreaFor(model => model.Summary, new { @placeholder = "Place of summary", @class = "form-control", @required = true })
                 </div>
 
                 <div class="form-check form-switch">
@@ -61,7 +61,7 @@
 
                 <div class="input-group mb-3">
                     @Html.LabelFor(model => model.Instructions, new { @class = "input-group-text"})
-                    @Html.TextAreaFor(model => model.Instructions, new { @placeholder = "Instructions", @class = "form-control" })
+                    @Html.TextAreaFor(model => model.Instructions, new { @placeholder = "Instructions", @class = "form-control", @required = true})
                 </div>
                  
                 <div class="input-group mb-3">
@@ -80,7 +80,7 @@
             </div>
             
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary button button4">Create</button>
+                <button type="submit" class="btn btn-primary button button4">Edit</button>
                 <button type="button" data-dismiss="modal" class="btn btn-primary button button4">Cancel</button>
             </div>
 
