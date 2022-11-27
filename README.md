@@ -151,7 +151,10 @@ Az oldal bal oldalán találhatóak a receptek keresésést illetve szűrését 
 
 Az előbbieken kívül amire még igazán büszkék vagyunk, ami a felhasználói felületet illeti, az a széleskörű input validáció és a hozzávalók kiválasztására szolgáló lenyíló lista:
 
-![Alt text](./Pictures/demo.png){ width=60% }
+<p align="center">
+    <img src="./Pictures/demo.png" width=60%>
+</p>
+
 
    
 ### Adat- és adatbázisterv
