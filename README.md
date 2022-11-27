@@ -138,12 +138,21 @@ funkciót elérhetővé tenni.
 
 Az oldalak egységes kinézetét az ASP.NET layout oldalak segítségével biztosítja. Az oldalak megjelenítésének testreszabására a Bootstrap könyvtárat használtuk.
 
-A ReciPerfect felhasználói felülete leginkább a modern webshopok jellegzetességeit hordozza. A weboldal betöltődése után egy jól megszokott Register/Login felület fogad. Bejelentkezést követően egy receptekből álló album jelenik meg. 
+A ReciPerfect felhasználói felülete leginkább a modern webshopok jellegzetességeit hordozza. A weboldal betöltődése után egy jól megszokott Register/Login felület fogad. Bejelentkezést követően egy receptekből álló album jelenik meg:
+
+![Alt text](./Pictures/home-page.png)
+
+Ebben a fejezetben érdemes megjegyezni, hogy jogosultság szerint két recepttípust különböztetünk meg: saját és nem saját. A saját receptet az adott felhasználó hozza létre, míg a nem saját receptet vagy az API végponttól származik vagy egy másik felhasználó hozta létre. A saját receptünket tudjuk módosítani, illetve szükség esetén törölni, míg a nem
 
 Az oldalak közti bonyolult navigáció okozta kellemetlenség elkerülése érdekében a ReciPerfect modális ablakokat használ a különböző tartalmak megjelenítésére. Így, az album elemeire kattintva egy modális ablak ugrik fel, amelyen részletesebb leírást kapunk az adott receptről.
  Az albumot alkotó kártyákon több elem található: egy színes kép az adott recept lehetséges eredményéről, a recept neve, egy rövid leírás, Edit és Delete gomb, a szükséges elkészítési idő, végül a recept forrása zárja a sort. Az Edit gomb megnyomásával egy modális ablak jelenik meg, amelyen lehetőségünk van szerkeszteni az adott receptet. A Delete gomb megnyomása után pedig egy olyan modális ablak tűnik fel, amely egy megerősítést kér tőlünk a törlést illetően.
 
 Az oldal bal oldalán találhatóak a receptek keresésést illetve szűrését szolgáló elemek. Itt lehetőségünk van rákeresni a receptre a neve alapján, vagy kiszűrhetjük a vegetariánus, vegán, gluténmentes és laktózmentes recepteket.
+
+Az előbbieken kívül amire még igazán büszkék vagyunk, ami a felhasználói felületet illeti, az a széleskörű input validáció és a hozzávalók kiválasztására szolgáló lenyíló lista:
+
+![Alt text](./Pictures/demo.png){ width=60% }
+
    
 ### Adat- és adatbázisterv
 
