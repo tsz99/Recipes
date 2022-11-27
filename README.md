@@ -166,7 +166,13 @@ A program futtatásához szükségünk van egy telepített és futó Micorsoft S
 
 ## A program készítése során felhasznált eszközök
 
+- Github - https://github.com/
+- Visual Studio 2019 - https://learn.microsoft.com/en-us/visualstudio/releases/2019/release-notes
+- SQL Server Management Studio (SSMS) 19 - https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms-19?view=sql-server-ver16
+- Microsoft Edge
+
 ## Összefoglalás
+
 
 ## Továbbfejlesztési lehetőségek
 
