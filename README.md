@@ -149,7 +149,7 @@ Az oldal bal oldalán találhatóak a receptek keresésést illetve szűrését 
 
 ![Alt text](./Pictures/ER-diagram.png)
 
-Az adatbázis sémáját az API tanulmányozása után készítettük el, mivel az API által visszaadott entitásokat szerettük volna eltárolni adatbázisban. A kapott adatokat tanulmányozva számos több-több kapcsolatot fedeztünk fel, ennek megfelelően (pl. Recipe - AnalyzedInstruction, Step - Ingredient stb.) létrehoztuk a megfelelő kapcsolótáblákat. A kapcsolótáblákban behivatkoztuk a megfelelő idegen kulcsokat a két összekapcsolni kívánt tábla elsődleges kulcsaira, illetve a duplikációk elkerülése végett a kapcsoló táblákban az egyes rekordokban levő két mező együttesen elsődleges kulcs is. Ebben az esetben nem volt szükséges surrogate key-t használni elsődleges kulcsként, mivel a két oszlop együttese meghatározza egyedileg az adott rekordot. 
+Az adatbázis sémáját az API tanulmányozása után készítettük el, mivel az API által visszaadott entitásokat szerettük volna eltárolni adatbázisban. A kapott adatokat tanulmányozva számos több-több kapcsolatot fedeztünk fel, ennek megfelelően az egyen entitásokhoz rendelhető sémák mellett létrehoztuk a megfelelő kapcsolótáblákat (pl. Recipe - AnalyzedInstruction, Step - Ingredient stb.). A kapcsolótáblákban behivatkoztuk a megfelelő idegen kulcsokat a két összekapcsolni kívánt tábla elsődleges kulcsaira, illetve a duplikációk elkerülése végett a kapcsoló táblákban az egyes rekordokban levő két mező együttesen elsődleges kulcs is. Ebben az esetben nem volt szükséges surrogate key-t használni elsődleges kulcsként, mivel a két oszlop együttese meghatározza egyedileg az adott rekordot. 
 
 ## Telepítési leírás
 
