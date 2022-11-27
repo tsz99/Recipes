@@ -10,8 +10,8 @@ using Recipes.Data;
 namespace Recipes.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221124092046_v2")]
-    partial class v2
+    [Migration("20221127154411_v1")]
+    partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -475,6 +475,19 @@ namespace Recipes.Data.Migrations
                     b.HasKey("ExtendedIngredientId", "RecipeId");
 
                     b.ToTable("RecipeExtendedIngredients");
+                });
+
+            modelBuilder.Entity("Recipes.Data.RecipeIngredient", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RecipeId", "IngredientId");
+
+                    b.ToTable("RecipeIngredients");
                 });
 
             modelBuilder.Entity("Recipes.Data.Step", b =>

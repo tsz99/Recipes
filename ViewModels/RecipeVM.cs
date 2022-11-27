@@ -47,7 +47,7 @@ namespace Recipes.ViewModels
 
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Title field must be filled")]
         [DisplayName("Title")]
         public string Title { get; set; }
 

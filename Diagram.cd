@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Recipes.Controllers.HomeController">
+    <Position X="1" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAQAAAAEAAAAAAAEAAEACAAEAAAAgAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="repo" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Recipes.DAL.RecipesRepository">
+    <Position X="8.5" Y="0.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ABAAgAAAAABAABIAoAAAAREABgIAAEEAAAggAAAJAAE=</HashCode>
+      <FileName>DAL\RecipesRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Recipes.Data.AnalyzedInstruction" Collapsed="true">
+    <Position X="6" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\AnalyzedInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.AnalyzedInstructionStep" Collapsed="true">
+    <Position X="7.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Data\AnalyzedInstructionStep.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.ApplicationDbContext" Collapsed="true">
+    <Position X="9.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAACAAAAAAAAICAAEEAAAAAAgAgAAAAAAgA=</HashCode>
+      <FileName>Data\ApplicationDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.Equipment" Collapsed="true">
+    <Position X="6" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAAAAAAAAAAAAIAQAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Equipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.Ingredient" Collapsed="true">
+    <Position X="7.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAgAAAAAAAAAAAAIAQAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Ingredient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.Recipe" Collapsed="true">
+    <Position X="9.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKCAQAJAQcAAkAAIACAIiAQAIAoQNAAAAAgIDAICAA=</HashCode>
+      <FileName>Data\Recipe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.RecipeAnalyzedInstruction" Collapsed="true">
+    <Position X="11.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAACAAAAAA=</HashCode>
+      <FileName>Data\RecipeAnalyzedInstruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.RecipeExtendedIngredient" Collapsed="true">
+    <Position X="13" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Data\RecipeExtendedIngredient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.RecipeIngredient" Collapsed="true">
+    <Position X="6" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Data\RecipeIngredient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.RecipesResult" Collapsed="true">
+    <Position X="7.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAQAAAAAAAIAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Data\RecipesResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.Step" Collapsed="true">
+    <Position X="9.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAACQAAAAEAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Step.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.StepEquipment" Collapsed="true">
+    <Position X="11.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\StepEquipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.StepIngredient" Collapsed="true">
+    <Position X="13" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\StepIngredient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.Migrations.CreateIdentitySchema" Collapsed="true">
+    <Position X="13" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAI=</HashCode>
+      <FileName>Data\Migrations\00000000000000_CreateIdentitySchema.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Data.Migrations.ApplicationDbContextModelSnapshot" Collapsed="true">
+    <Position X="11.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Data\Migrations\ApplicationDbContextModelSnapshot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.Services.DataCollectorService">
+    <Position X="3" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACQgAAAAAAgAAAAAIAAAAAAAASAAAAAAAAA=</HashCode>
+      <FileName>Services\DataCollectorService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="api" />
+      <Field Name="_logger" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Recipes.Services.FoodAPIService">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\FoodAPIService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="repo" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Recipes.ViewModels.IndexVM">
+    <Position X="13.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAEAQAAAAIAAAAAAAAIAAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\IndexVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.ViewModels.DeleteVM">
+    <Position X="13.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\DeleteVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Recipes.ViewModels.RecipeVM">
+    <Position X="11.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKCAAABAAIAAEAAAQAABCAAAAAIABAAAAAAADAIAAA=</HashCode>
+      <FileName>ViewModels\RecipeVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Microsoft.Extensions.Logging.ILogger&lt;TCategoryName&gt;" Collapsed="true">
+    <Position X="6.5" Y="5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
