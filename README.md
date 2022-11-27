@@ -162,6 +162,8 @@ Az adatbázis sémáját az API tanulmányozása után készítettük el, mivel 
 
 ## Telepítési leírás
 
+A program futtatásához szükségünk van egy telepített és futó Micorsoft SQL Server 2019 vagy Microsoft SQL Server Express 2019 adatbáziskezelőre, amelyben beállítjuk, hogy az adatbázis kezdeti katalógusa "mssqllocaldb" legyen. Az adatbáziskezelő mellett szükséges telepíteni az ASP.NET Core Runtime 3.1.31-ot az alkalmazás futtatásához. A telepítések után csomagoljuk ki a beadott binárist tartalmazó zip-et és indítsuk el a Recipes.exe fájlt. Első indításkor a program megpróbál csatlakozni a megjelölt adatbázis katalógushoz és létrehozza benne a Recipes adatbázist a program működéséhez szükséges táblákkal, az elkészített migrációk alapján. Ha a program sikeresen elindult akkor egy Microsoft Edge böngészőben a http://localhost:5000 címet beírva (amely automatikusan átirányít a https:localhost:5001 címre annak érdekében hogy csak https felett lehessen az alkalmazást használni) láthatjuk az alkalmazás kezdő képernyőjét.
+
 ## A program készítése során felhasznált eszközök
 
 ## Összefoglalás
