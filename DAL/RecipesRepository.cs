@@ -250,9 +250,16 @@ namespace Recipes.DAL
 
         public void EditRecipe(Recipe editedRecipe)
         {
-            DeleteRecipe(editedRecipe.DB_ID);
-            editedRecipe.DB_ID = 0;
-            SaveUserCreatedRecipe(editedRecipe);
+            try
+            {
+                DeleteRecipe(editedRecipe.DB_ID);
+                editedRecipe.DB_ID = 0;
+                SaveUserCreatedRecipe(editedRecipe);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("DB problem encontered");
+            }
         }
 
         public void DeleteRecipe(int id)
