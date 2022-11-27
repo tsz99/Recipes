@@ -92,26 +92,22 @@ A fejezetben áttekintést adunk a program architektúrájáról, bemutatjuk az 
 
 ### Architektúra
 
-Az alkalmazásunk, a már klasszikusnak tekinthető, N-rétegű architektúrát használ, a ReciPrefect 4 réteget definiál:
+Az alkalmazásunk, a már klasszikusnak tekinthető, N-rétegű architektúrát használ, a ReciPrefect 3 réteget definiál:
 
-- adatbázisréteg (Database Layer, DB)
+![Alt text](./Pictures/3layerArch.png)
+
 - adatelérési réteg (Data Access Layer, DAL)
 - üzleti logika rétege (Business Logic Layer, BLL)
 - felhasználói felület (Graphical User Interface, GUI)
 
-A 4 felsorolt rétegen kívül, a felhasználókezeléshez egy teljesen elkülönülő beépített ASP.NET Core Identity modult használunk. Mivel ezt a modult készen kaptuk a keretrendszerrel, a belső működését jelen dokumentum keretei között nem tárgyaljuk.
+A 3 felsorolt rétegen kívül, a felhasználókezeléshez egy teljesen elkülönülő beépített ASP.NET Core Identity modult használunk. Mivel ezt a modult készen kaptuk a keretrendszerrel, a belső működését jelen dokumentum keretei között nem tárgyaljuk.
 
-A fejezet további részében a felsorolt 4 réteg feladatkörét, határait és működését fogjuk ismertetni.
-
-#### Adatbázis réteg (Database Layer)
-**Célja:** A receptek és metaadataik perzisztens tárolása.
-
-Az alkalmazásunk adatbázisát egy MSSQL adatbázis képezi. Az adatbázis Entity Framework Core (EF Core) Code First megközelítéssel készült. Az adatbázis séma az EF Core konvenciók alapján generálódik a megadott adatmodell osztályaink alapján.
-
-Az adatbázis réteg adatbázisának felépítése az Adat- és adatbázisterv fejezetben van kifejtve részletesen.
+A fejezet további részében a felsorolt 3 réteg feladatkörét, határait és működését fogjuk ismertetni.
 
 #### Adathozzáférési réteg (Data Access Layer)
 **Célja:** Az adatbázis és üzleti logika közötti közvetítés.
+
+Az alkalmazásunk adatbázisát egy MSSQL adatbázis képezi. Az adatbázis Entity Framework Core (EF Core) Code First megközelítéssel készült. Az adatbázis séma az EF Core konvenciók alapján generálódik a megadott adatmodell osztályaink alapján. Az adatbázis felépítése az Adat- és adatbázisterv fejezetben van kifejtve részletesen.
 
 Az adathozzáférési rétegben van megvalósítva minden olyan művelet, amely az adatbázishoz fordulást tartalmaz. A DAL funkciókat egy RecipesRepository osztály valósítja meg. Ez az osztály egy jól meghatározott interfészt kínál az üzleti logikai réteg számára.
 
@@ -124,7 +120,15 @@ A következő ábrán a ReciPerfect automatikusan generált osztálydiagramja l�
 
 ![Alt text](./Pictures/class-diagram.png)
 
-Az üzleti logikai réteg két fő szereplője a HomeController és a FoodAPIService osztályok. 
+Az üzleti logikai réteg 3 fő szereplője a HomeController, a FoodAPIService és a DataCollectorService osztályok. 
+
+A HomeController fogadja a UI interakcióit és elvégzi az aktuális műveletet. A HomeController metódusai egyértelműen megfeleltethetőek a specifikációban leírt Use Case funkcióknak: Létre lehet hozni egy receptet (Create); Lehet törölni a receptet (Delete); Le lehet tölteni a receptet (Download); Lehet módosítani a receptet (Edit); Lehet a recepteket böngészni (Index); A receptekre rá lehet keresni (Search).
+
+A FoodAPIService intézi a receptes API végpont hívását. A hívás eredményét átadja a RecipeRepository adatelérési osztálynak, amely majd perzisztálja az új beérkezett recepteket. Az implementációnkban mi a Spoonacular API-t használtuk fel.
+
+A DataCollectorService lényegében egy háttérben futó szolgáltatást valósít meg, amelynek a feladata, hogy óránként meghívja a FoodAPIService szolgáltatást.
+
+A FoodAPIService és a DataCollectorService Dependency Injection segítségével vannak konfigurálva, így téve rugalmassá és lazán csatoltá az alkalmazásunkat.
 
 
 #### Grafikus felhasználói felület (Graphical User Interface)
@@ -155,5 +159,5 @@ Az oldal bal oldalán találhatóak a receptek keresésést illetve szűrését 
 
 ## Hivatkozások
 
-ASP.NET Core, Bootstrap, MSSQL
+ASP.NET Core, Bootstrap, MSSQL, API
 
