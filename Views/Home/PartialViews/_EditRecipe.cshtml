@@ -1,0 +1,104 @@
+﻿
+@{
+    Layout = null;
+}
+@using System.Web;
+@using Recipes.ViewModels;
+@model RecipeVM
+@section Scripts{
+    <script src="@Url.Content("~/js/multiselect.js")" ></script>
+}
+@Html.RenderUnobtrusiveAjaxScript()
+@Html.ValidationSummary()
+
+<div class="modal fade" tabindex="-1" id="createModal"
+     data-keyboard="false" data-backdrop="static">
+@using (Html.AjaxBeginForm("Edit", "Home", new AjaxOptions{ 
+    OnSuccess = "onSuccess",
+    HttpMethod = "Post"
+}))
+{
+    @Html.HiddenFor(model => model.DB_ID)
+    @Html.HiddenFor(model => model.CreatorUser)
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit recipe</h3>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body m-3">
+
+                <div class="input-group input-group-lg mb-3">
+                    @Html.LabelFor(model => model.Title, new { @class = "input-group-text"})
+                    @Html.TextBoxFor(model => model.Title, new { @placeholder = "Title Name", @class = "form-control" })
+                </div>
+
+
+                <div class="input-group mb-3">
+                    @Html.LabelFor(model => model.Summary, new { @class = "input-group-text"})
+                    @Html.TextAreaFor(model => model.Summary, new { @placeholder = "Place of summary", @class = "form-control" })
+                </div>
+
+                <div class="form-check form-switch">
+                    @Html.CheckBoxFor(model => model.Vegetarian, new { @class = "form-check-input" })
+                    @Html.LabelFor(model => model.Vegetarian, new { @class = "form-check-label"})
+                </div>
+
+                <div class="form-check form-switch">
+                    @Html.CheckBoxFor(model => model.Vegan, new { @class = "form-check-input" })
+                    @Html.LabelFor(model => model.Vegan, new { @class = "form-check-label"})
+                </div>
+
+                <div class="form-check form-switch">
+                    @Html.CheckBoxFor(model => model.GlutenFree, new { @class = "form-check-input" })
+                    @Html.LabelFor(model => model.GlutenFree, new { @class = "form-check-label"})
+                </div>
+
+                <div class="form-check form-switch">
+                    @Html.CheckBoxFor(model => model.DairyFree, new { @class = "form-check-input" })
+                    @Html.LabelFor(model => model.DairyFree, new { @class = "form-check-label"})
+                </div>
+
+                <div class="input-group mb-3">
+                    @Html.LabelFor(model => model.Instructions, new { @class = "input-group-text"})
+                    @Html.TextAreaFor(model => model.Instructions, new { @placeholder = "Instructions", @class = "form-control" })
+                </div>
+                 
+                <div class="input-group mb-3">
+                    @Html.LabelFor(model => model.Ingredients, new { @class = "input-group-text"})
+                    <select multiple multiselect-search="true" title="Ingredients" class="form-control col-11" id="Ingredients" name="Ingredients">
+                        @foreach(var item in Model.AllIngredients){
+                            @if(Model.Ingredients.Select(y => y.IngredientId).ToList().Contains(item.IngredientId)){
+                                <option value="@item.IngredientId" selected>@item.Name</option>
+                            }
+                            else{
+                                <option value="@item.IngredientId">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary button button4">Create</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary button button4">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+}
+</div>
+
+
+<script>
+
+    function onSuccess(){
+        $('#modal-placeholder > .modal').modal('hide');
+        location.reload();
+    }
+    $( document ).ready(function() {
+        MultiselectDropdown(window.MultiselectDropdownOptions);
+        document.getElementsByClassName('multiselect-dropdown')[0].classList.add("col-10");
+    });
+
+</script>

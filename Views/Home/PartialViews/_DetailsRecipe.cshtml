@@ -1,0 +1,61 @@
+﻿@model RecipeVM;
+@{
+    Layout = null;
+}
+@using System.Web;
+@using Recipes.ViewModels;
+
+<div class="modal fade" tabindex="-1" id="detailsModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">@Model.Title</h3>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body m-3">
+                <form>
+                    <p>
+                        @Html.Raw(@Model.Summary)
+                    </p>
+
+                    <fieldset disabled>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="checkVegetarian" @(Model.Vegetarian ? "checked" : "")>
+                            <label class="form-check-label" for="checkVegetarian">Vegetarian</label>
+                        </div>
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="checkVegan" @(Model.Vegan ? "checked" : "")>
+                            <label class="form-check-label" for="checkVegan">Vegan</label>
+                        </div>
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="checkGlutenFree" @(Model.GlutenFree ? "checked" : "")>
+                            <label class="form-check-label" for="checkGlutenFree">GlutenFree</label>
+                        </div>
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="checkDiaryFree" @(Model.DairyFree ? "checked" : "")>
+                            <label class="form-check-label" for="checkDiaryFree">DiaryFree</label>
+                        </div>
+                    </fieldset>
+
+                    <h5>Instructions</h5>
+                    <p>@Html.Raw(@Model.Instructions)</p>
+
+                    <h5>Ingredients</h5>
+                    <div class="d-flex flex-wrap">
+                        @foreach(var ingredient in Model.Ingredients)
+                        {
+                            <img class="card-img-top col-2" src="https://spoonacular.com/cdn/ingredients_100x100/@ingredient.Image" alt="Ingredient image">
+                        }
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-primary button button4">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,4 @@
+using AspNetCore.Unobtrusive.Ajax;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Recipes.DAL;
 using Recipes.Data;
 using Recipes.Services;
 using System;
@@ -33,8 +35,11 @@ namespace Recipes
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddUnobtrusiveAjax(useCdn: true, injectScriptIfNeeded: false);
             services.AddScoped<FoodAPIService>();
+            services.AddScoped<RecipesRepository>();
             services.AddControllersWithViews();
+            services.AddHostedService<DataCollectorService>();
             services.AddRazorPages();
         }
 
