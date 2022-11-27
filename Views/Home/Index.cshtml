@@ -115,7 +115,6 @@ else
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script>
     $("#createNewButton").click(function () {
-        debugger;
         let url = new URL(location.origin + '@Url.Action("Create", "Home")');
         $.get(url).done(function (data) {
             $('#modal-placeholder').html(data);
@@ -124,7 +123,6 @@ else
     });
 
     $(".editButton").click(function (e) {
-        debugger;
         let idVal = e.currentTarget.id.split('_')[1];
         let url = new URL(location.origin + '@Url.Action("Edit", "Home")');
         url.searchParams.append('id', idVal);
@@ -135,7 +133,6 @@ else
     });
 
     $(".detailsButton").click(function (e) {
-        debugger;
         let idVal = e.currentTarget.id.split('_')[1];
         let url = new URL(location.origin + '@Url.Action("Details", "Home")');
         url.searchParams.append('id', idVal);
@@ -146,7 +143,6 @@ else
     });
 
     $(".deleteButton").click(function (e) {
-        debugger;
         let idVal = e.currentTarget.id.split('_')[1];
         let url = new URL(location.origin + '@Url.Action("Delete", "Home")');
         url.searchParams.append('id', idVal);
@@ -162,7 +158,6 @@ else
     });
 
     $(".downloadButton").click(function (e) {
-        debugger;
         let idVal = e.currentTarget.id.split('_')[1];
 
         var a = document.createElement("a");
