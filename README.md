@@ -158,6 +158,8 @@ Az előbbieken kívül amire még igazán büszkék vagyunk, ami a felhasználó
 
 ![Alt text](./Pictures/ER-diagram.png)
 
+Az adatbázis sémáját az API tanulmányozása után készítettük el, mivel az API által visszaadott entitásokat szerettük volna eltárolni adatbázisban. A kapott adatokat tanulmányozva számos több-több kapcsolatot fedeztünk fel, ennek megfelelően az egyen entitásokhoz rendelhető sémák mellett létrehoztuk a megfelelő kapcsolótáblákat (pl. Recipe - AnalyzedInstruction, Step - Ingredient stb.). A kapcsolótáblákban behivatkoztuk a megfelelő idegen kulcsokat a két összekapcsolni kívánt tábla elsődleges kulcsaira, illetve a duplikációk elkerülése végett a kapcsoló táblákban az egyes rekordokban levő két mező együttesen elsődleges kulcs is. Ebben az esetben nem volt szükséges surrogate key-t használni elsődleges kulcsként, mivel a két oszlop együttese meghatározza egyedileg az adott rekordot. 
+
 ## Telepítési leírás
 
 ## A program készítése során felhasznált eszközök
