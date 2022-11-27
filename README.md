@@ -111,10 +111,21 @@ Az alkalmazásunk adatbázisát egy MSSQL adatbázis képezi. Az adatbázis Enti
 Az adatbázis réteg adatbázisának felépítése az Adat- és adatbázisterv fejezetben van kifejtve részletesen.
 
 #### Adathozzáférési réteg (Data Access Layer)
+**Célja:** Az adatbázis és üzleti logika közötti közvetítés.
 
+Az adathozzáférési rétegben van megvalósítva minden olyan művelet, amely az adatbázishoz fordulást tartalmaz. A DAL funkciókat egy RecipesRepository osztály valósítja meg. Ez az osztály egy jól meghatározott interfészt kínál az üzleti logikai réteg számára.
 
+A szükséges műveletek, mint például az adatbázisban lévő receptek lekérdezése, LINQ lekérdezések formájában vannak megvalósítva. Ez az implementáció egy további védelmi vonalat képez az adatbáziselérésben a rosszindulatú felhasználók ellen, így akadályozva olyan típusú támadásokat, mint az SQL Injection.
 
 #### Üzleti logikai réteg (Business Logic Layer)
+**Célja:** Az adatelérési réteg által szolgáltatott adatokat a UI által kezelhető formátumra alakítja.
+
+A következő ábrán a ReciPerfect automatikusan generált osztálydiagramja látható:
+
+![Alt text](./Pictures/class-diagram.png)
+
+Az üzleti logikai réteg két fő szereplője a HomeController és a FoodAPIService osztályok. 
+
 
 #### Grafikus felhasználói felület (Graphical User Interface)
 
@@ -132,6 +143,7 @@ Az oldal bal oldalán találhatóak a receptek keresésést illetve szűrését 
    
 ### Adat- és adatbázisterv
 
+![Alt text](./Pictures/ER-diagram.png)
 
 ## Telepítési leírás
 
